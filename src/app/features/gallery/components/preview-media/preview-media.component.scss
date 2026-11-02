@@ -7,29 +7,10 @@ $colors: (
   'edit-label-background': rgba(20, 18, 24, 0.65)
 );
 
-
-.gallery-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.gallery-item-image {
+:host {
   display: block;
-
-  margin: 5% 10%;
-
-  max-height: 290px;
-
-  user-select: none;
-}
-
-
-
-.media-container {
   position: relative;
   
-  display: block;
   width: 100%;
   height: 100%;
 

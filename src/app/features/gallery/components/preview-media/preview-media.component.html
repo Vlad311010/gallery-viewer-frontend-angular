@@ -24,17 +24,16 @@
     />  
 </ng-template>
 
-<div class="media-container">
-  @if (isVideo()) {
-    <ng-container *ngTemplateOutlet="previewMediaVideo" />
-  }
-  @else {
-    <ng-container *ngTemplateOutlet="previewMediaImage" />
-  }
 
-  @if (showEditLable() && !isGroup()) {
-    <span class="edit-mode-label">
-      Edit
-    </span>
-  }
-</div>
+@if (isVideo()) {
+  <ng-container *ngTemplateOutlet="previewMediaVideo" />
+}
+@else {
+  <ng-container *ngTemplateOutlet="previewMediaImage" />
+}
+
+@if (showEditLable() && !isGroup()) {
+  <span class="edit-mode-label">
+    Edit
+  </span>
+}

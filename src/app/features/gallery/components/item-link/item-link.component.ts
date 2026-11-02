@@ -8,8 +8,8 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 })
 export class ItemLink {
   itemId = input.required<number>();
+  isGroup = input.required<boolean>();  
   isEditMode = input<boolean>(false);
-  isGroup = input<boolean>(false);  
 
   private readonly route = inject(ActivatedRoute);
 
@@ -22,4 +22,13 @@ export class ItemLink {
         ? `/gallery/${this.galleryName}/asset/${this.itemId()}`
         : `/gallery/${this.galleryName}/asset/${this.itemId()}/view`
   )
+
+  /*
+  private readonly directTo = computed(() =>
+    isGroup(this.item())
+      ? `/group/${this.item().id}`
+      : this.isEditMode() 
+        ? `/gallery/${this.galleryName}/asset/${this.item().id}`
+        : `/gallery/${this.galleryName}/asset/${this.item().id}/view`
+  )*/
 }

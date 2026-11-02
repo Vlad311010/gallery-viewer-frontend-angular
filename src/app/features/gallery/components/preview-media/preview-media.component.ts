@@ -11,7 +11,7 @@ import { ApiUrls } from '@contract/urls';
 })
 export class PreviewMedia {
   itemId = input.required<number>();
-  showEditLable = input<boolean>(true);
+  showEditLable = input.required<boolean>();
   isGroup = input<boolean>(false);
   isVideo = input<boolean>(false);
   

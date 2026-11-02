@@ -1,6 +1,6 @@
-
-<ng-template #previewMediaVideo>
+<items-grid [items]="items" [itemTemplate]="assetPreview">
+  <ng-template #assetPreview let-item>
+    <item-preview [item]="item" />
+  </ng-template>  
+</items-grid>
   
-</ng-template>
-<item-preview [itemId]="55" />
-<item-preview [itemId]="56" />
