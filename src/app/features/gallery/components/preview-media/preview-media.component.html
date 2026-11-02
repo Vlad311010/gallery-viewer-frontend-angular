@@ -1,0 +1,40 @@
+<ng-template #previewMediaVideo>
+  <video
+    [src]="previewUrl()"
+    [class]="classStyle()"
+    [controls]="false"
+    muted
+    playsInline
+    disablePictureInPicture
+    disableRemotePlayback
+    preload="auto"
+    [autoplay]="false"
+    [loop]="true"
+    (error)="onPreviewError()"
+    (mouseenter)="onMouseEnter($event)"
+    (mouseleave)="onMouseLeave($event)"
+  ></video>
+</ng-template>
+
+<ng-template #previewMediaImage> 
+  <img
+      [src]="previewUrl()"
+      (error)="onPreviewError()"
+      [class]="classStyle()"
+    />  
+</ng-template>
+
+<div class="media-container">
+  @if (isVideo()) {
+    <ng-container *ngTemplateOutlet="previewMediaVideo" />
+  }
+  @else {
+    <ng-container *ngTemplateOutlet="previewMediaImage" />
+  }
+
+  @if (showEditLable() && !isGroup()) {
+    <span class="edit-mode-label">
+      Edit
+    </span>
+  }
+</div>

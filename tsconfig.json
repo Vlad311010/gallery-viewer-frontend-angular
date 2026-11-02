@@ -4,7 +4,9 @@
   "compilerOptions": {
     "paths": {
       "@contract/*": ["./src/contract/*"],
-      "@shared/*": ["./src/app/shared/*"]
+      "@app/*": ["./src/app/*"],
+      "@shared/*": ["./src/app/shared/*"],
+      "@styles/*": ["./src/styles/*"]
     },
     "outDir": "./dist/out-tsc",
     "forceConsistentCasingInFileNames": true,

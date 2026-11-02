@@ -1,0 +1,33 @@
+<item-link [itemId]="itemId()">
+  <preview-media [itemId]="itemId()"></preview-media>
+</item-link>
+
+
+<!--<div className="gallery-item">
+  <figure className="gallery-item-image">
+    <AssetLink 
+      id={item.id}
+      isEditMode={isEditMode}
+      isGroup={isGroup}
+    >
+      <PreviewMedia 
+        id={item.id}
+        isEditMode={isEditMode}
+        isGroup={isGroup}
+        isVideo={isVideo}
+      />
+    </AssetLink>
+  </figure>
+  {isEditMode && assetPositionData && (
+    <GroupAssetEditor 
+      assetId={item.id}
+      groupId={groupData.groupId}
+      position={assetPositionData.position} 
+      normalizedPosition={assetPositionData.normalizedPosition} 
+      isGroupCoverAsset={item.id === groupData.coverAssetId}
+      isRemovingAllowed={groupData.isAssetAddRemoveAllowed}
+      updateAssetPosition={groupData.updateAssetPosition}
+      setAssetCover={groupData.setCoverAsset}
+    />
+  )}
+</div> -->

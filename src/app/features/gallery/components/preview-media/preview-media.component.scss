@@ -1,0 +1,77 @@
+@use 'sass:map';
+@use 'variables' as vars;
+
+$colors: (
+  'asset-border': #7000b6,
+  'group-border': #029602,
+  'edit-label-background': rgba(20, 18, 24, 0.65)
+);
+
+
+.gallery-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.gallery-item-image {
+  display: block;
+
+  margin: 5% 10%;
+
+  max-height: 290px;
+
+  user-select: none;
+}
+
+
+
+.media-container {
+  position: relative;
+  
+  display: block;
+  width: 100%;
+  height: 100%;
+
+  .item {
+    &-asset,
+    &-group {
+      display: block;
+      width: 100%;
+      height: 100%;
+
+      object-fit: cover;
+      object-position: center;
+
+      border: 4px solid;
+    }
+
+    &-asset {
+      border-color: map.get($colors, 'asset-border');
+
+      &.video {
+        border-style: dashed;
+      }
+    }
+
+    &-group {
+      border-color: map.get($colors, 'group-border');
+    }
+  }
+
+  .edit-mode-label {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+
+    padding: 5px 8px;
+
+    background: map.get($colors, 'edit-label-background');
+    color: map.get(vars.$colors, 'text-primary');
+
+    font-size: 0.8rem;
+    line-height: 1.2;
+
+    pointer-events: none;
+  }
+}

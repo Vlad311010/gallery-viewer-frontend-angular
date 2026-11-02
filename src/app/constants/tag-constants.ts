@@ -1,0 +1,5 @@
+export const CONSTANTS = {
+  TAG_SEPARATOR_CHARACTER: '_',
+  TAG_EXCLUSION_CHARACTER: '-',
+  SPACE_CHARACTER: ' '
+} as const;

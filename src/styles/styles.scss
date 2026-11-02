@@ -1,0 +1,35 @@
+/* You can add global styles to this file, and also import other style files */
+@use 'sass:map';
+@use 'variables' as vars;
+
+$gradient-start: rgb(58, 75, 102);
+$gradient-end: rgb(37, 13, 73);
+
+$bg-gradient: linear-gradient(
+  180deg,
+  $gradient-start 0%,
+  $gradient-end 100%
+);
+
+html {
+  scroll-behavior: smooth;
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100svh;
+
+  font-family: map.get(vars.$fonts, 'sans');
+  font-weight: 300;
+  line-height: 1.6;
+
+  color: map.get(vars.$colors, 'text-primary');
+
+  background-image: $bg-gradient;
+  background-attachment: fixed;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+  
