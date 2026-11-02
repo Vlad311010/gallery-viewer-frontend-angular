@@ -2,9 +2,11 @@
   display: flex;
   flex-direction: column;
   align-items: center;
+  
 }
 
-.gallery-item-image {
+.gallery-item-image,
+figure {
   display: block;
   margin: 5% 10%;
   max-height: 290px;

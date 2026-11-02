@@ -14,17 +14,18 @@ $bg-gradient: linear-gradient(
 html {
   scroll-behavior: smooth;
   min-height: 100%;
+
+  font: 18px/145% map.get(vars.$fonts, 'sans'); 
+  font-weight: 300;
+  font-weight: 300;
+  line-height: 1.6;
 }
 
 body {
   margin: 0;
   min-width: 320px;
   min-height: 100svh;
-
-  font-family: map.get(vars.$fonts, 'sans');
-  font-weight: 300;
-  line-height: 1.6;
-
+  
   color: map.get(vars.$colors, 'text-primary');
 
   background-image: $bg-gradient;
@@ -32,4 +33,3 @@ body {
   background-repeat: no-repeat;
   background-size: cover;
 }
-  

@@ -7,6 +7,6 @@ $colors: (
 );
 
 $fonts: (
-  'sans': "system-ui, "Segoe UI", Roboto, sans-serif",
-  'mono': "ui-monospace, Consolas, monospace",
+  'sans': (system-ui, "Segoe UI", Roboto, sans-serif),
+  'mono': (ui-monospace, Consolas, monospace),
 )

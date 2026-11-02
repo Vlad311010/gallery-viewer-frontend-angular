@@ -4,6 +4,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 @Component({
   selector: 'item-link',
   templateUrl: './item-link.component.html',
+  styleUrl: './item-link.component.scss',
   imports: [RouterLink]
 })
 export class ItemLink {

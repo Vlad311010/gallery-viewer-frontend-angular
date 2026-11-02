@@ -8,7 +8,6 @@ $colors: (
 );
 
 :host {
-  display: block;
   position: relative;
   
   width: 100%;
@@ -42,17 +41,20 @@ $colors: (
 
   .edit-mode-label {
     position: absolute;
-    right: 0;
-    bottom: 0;
+    right: 8px;
+    bottom: 0px;
+    width: 3.2rem;
+    text-align: center;
 
     padding: 5px 8px;
-
-    background: map.get($colors, 'edit-label-background');
-    color: map.get(vars.$colors, 'text-primary');
 
     font-size: 0.8rem;
     line-height: 1.2;
 
     pointer-events: none;
+    
+    color: map.get(vars.$colors, 'text-primary');
+    background: map.get($colors, 'edit-label-background');
   }
 }
+
