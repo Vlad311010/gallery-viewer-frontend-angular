@@ -1,0 +1,21 @@
+
+<ng-template #paginatorElement let-symbol="symbol" let-pageNumber="page" let-isActive="isActive">
+  <a 
+    [class.active]="isActive" 
+    [routerLink]="[]"
+    [queryParams]="{ page: pageNumber }"
+    >{{ symbol}}</a>
+</ng-template>
+
+
+
+@for (paginatorBtnData of paginatorButtons(); track paginatorBtnData.symbol) {
+  <ng-container
+    [ngTemplateOutlet]="paginatorElement"
+    [ngTemplateOutletContext]="{ 
+      symbol: paginatorBtnData.symbol, 
+      isActive: paginatorBtnData.isActive, 
+      page: paginatorBtnData.page 
+    }"
+  />
+}

@@ -18,18 +18,10 @@ export class ItemLink {
 
   private readonly directTo = computed(() =>
     this.isGroup() 
-      ? `/group/${this.itemId()}`
+      ? `group/${this.itemId()}`
       : this.isEditMode() 
-        ? `/gallery/${this.galleryName}/asset/${this.itemId()}`
-        : `/gallery/${this.galleryName}/asset/${this.itemId()}/view`
+        ? `asset/${this.itemId()}`
+        : `asset/${this.itemId()}/view`
   )
 
-  /*
-  private readonly directTo = computed(() =>
-    isGroup(this.item())
-      ? `/group/${this.item().id}`
-      : this.isEditMode() 
-        ? `/gallery/${this.galleryName}/asset/${this.item().id}`
-        : `/gallery/${this.galleryName}/asset/${this.item().id}/view`
-  )*/
 }

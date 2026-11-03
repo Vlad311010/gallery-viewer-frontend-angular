@@ -1,1 +1,1 @@
-export { GalleryList } from './components/gallery-list/gallery-list.component';
+export { GalleryList } from './components/gallery-list/gallery.component';

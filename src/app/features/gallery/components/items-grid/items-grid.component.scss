@@ -1,3 +1,5 @@
+$page-side-margin: 0.75rem;
+
 :host {
   display: grid;
 
@@ -5,6 +7,5 @@
   grid-template-rows: repeat(6, 1fr);
 
   gap: 1.5rem;
-
-  margin: 2rem var(--page-side-maring);
+  margin: 2rem $page-side-margin;
 }

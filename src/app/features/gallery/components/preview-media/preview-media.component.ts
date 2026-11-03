@@ -1,7 +1,8 @@
-import { NgTemplateOutlet } from '@angular/common';
+import { NgIf, NgTemplateOutlet } from '@angular/common';
 import { Component, computed, inject, input, signal } from '@angular/core';
 import { CONSTANTS } from '@app/constants/static-files-constants';
 import { ApiUrls } from '@contract/urls';
+import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'preview-media',

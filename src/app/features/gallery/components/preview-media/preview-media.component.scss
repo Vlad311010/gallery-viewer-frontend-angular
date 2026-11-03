@@ -2,7 +2,7 @@
 @use 'variables' as vars;
 
 $colors: (
-  'asset-border': #7000b6,
+  'asset-border': map.get(vars.$colors, 'default-purple'),
   'group-border': #029602,
   'edit-label-background': rgba(20, 18, 24, 0.65)
 );
@@ -53,7 +53,7 @@ $colors: (
 
     pointer-events: none;
     
-    color: map.get(vars.$colors, 'text-primary');
+    color: map.get(vars.$text, 'text-primary');
     background: map.get($colors, 'edit-label-background');
   }
 }

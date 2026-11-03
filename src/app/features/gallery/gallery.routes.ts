@@ -1,15 +1,14 @@
 import { Routes } from '@angular/router';
-import { GalleryList } from './components/gallery-list/gallery-list.component';
+import { GalleryList } from './components/gallery-list/gallery.component';
 import { Group } from './components/group/group.component';
-// import { GalleryList } from '@app/features/gallery';
 
 export const GALLERY_ROUTES: Routes = [
   {
-    path: '',
+    path: ':galleryName',
     component: GalleryList,
   },
   {
-    path: 'group/:id',
+    path: ':galleryName/group/:id',
     component: Group,
   }
 ];

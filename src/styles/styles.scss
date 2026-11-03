@@ -17,16 +17,14 @@ html {
 
   font: 18px/145% map.get(vars.$fonts, 'sans'); 
   font-weight: 300;
-  font-weight: 300;
   line-height: 1.6;
 }
 
 body {
   margin: 0;
-  min-width: 320px;
   min-height: 100svh;
   
-  color: map.get(vars.$colors, 'text-primary');
+  color: map.get(vars.$text, 'text-primary');
 
   background-image: $bg-gradient;
   background-attachment: fixed;

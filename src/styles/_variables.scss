@@ -2,8 +2,14 @@
 
 // Application color palette
 $colors: (
+  'default-purple': #7000b6,
+  'default-green': #029602
+);
+
+$text: (
   'text-primary': #eee7f8,
   'text-secondary': #bebcc1,
+  'text-light': #d2d1d1,
 );
 
 $fonts: (
