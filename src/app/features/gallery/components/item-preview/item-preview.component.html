@@ -1,6 +1,9 @@
 
+
 <figure className="gallery-item-image">
-  <item-link class="gallery-item-preview"
+  <item-link 
+    class="gallery-item-preview"
+    [style.display]="isLoadingPreview ? 'none' : 'block'"
     [itemId]="item().id" 
     [isGroup]="item().type | isGroup" 
   >
@@ -9,6 +12,12 @@
       [showEditLable]="true"
       [isGroup]="item().type | isGroup"
       [isVideo]="false"
-    />
+      (loadingChange)="onPreviewLoadingChange($event)"
+    />  
   </item-link>
+
+  @if (isLoadingPreview) {
+    <loader [size]="36" color="white" />
+  }
 </figure>
+

@@ -1,8 +1,7 @@
-import { NgIf, NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input, signal } from '@angular/core';
+import { NgTemplateOutlet } from '@angular/common';
+import { Component, computed, inject, input, output, signal } from '@angular/core';
 import { CONSTANTS } from '@app/constants/static-files-constants';
 import { ApiUrls } from '@contract/urls';
-import { ɵEmptyOutletComponent } from '@angular/router';
 
 @Component({
   selector: 'preview-media',
@@ -15,6 +14,8 @@ export class PreviewMedia {
   showEditLable = input.required<boolean>();
   isGroup = input<boolean>(false);
   isVideo = input<boolean>(false);
+
+  readonly loadingChange = output<boolean>();
   
   private readonly apiUrls = inject(ApiUrls);
   
@@ -31,7 +32,12 @@ export class PreviewMedia {
   );
 
   
+  onPreviewLoad() {
+    this.loadingChange.emit(false);
+  }
+
   onPreviewError(): void {
+    this.loadingChange.emit(false);
     this.previewUrl = signal(CONSTANTS.ASSET_NOT_FOUND_IMAGE);
   } 
 

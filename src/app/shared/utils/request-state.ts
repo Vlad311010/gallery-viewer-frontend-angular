@@ -85,8 +85,8 @@ function getErrorMessage(
 ): ApiError {
   const defaultTitle = 'Request Failed';
   if (error instanceof HttpErrorResponse) {
-    return error.error as ApiError ?? {
-      status: error.status,
+    return {
+      status: error.status ?? 500,
       title: error.name || defaultTitle,
       details: fallbackMessage
     };

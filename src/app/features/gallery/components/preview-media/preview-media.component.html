@@ -8,6 +8,7 @@
     disablePictureInPicture
     disableRemotePlayback
     preload="auto"
+    loading="lazy"
     [autoplay]="false"
     [loop]="true"
     (error)="onPreviewError()"
@@ -18,10 +19,11 @@
 
 <ng-template #previewMediaImage> 
   <img
-      [src]="previewUrl()"
-      (error)="onPreviewError()"
-      [class]="classStyle()"
-    />  
+    [src]="previewUrl()"
+    (load)="onPreviewLoad()"
+    (error)="onPreviewError()"
+    [class]="classStyle()"
+  />  
 </ng-template>
 
 @if (isVideo()) {

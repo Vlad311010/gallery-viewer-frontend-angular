@@ -1,4 +1,5 @@
 @for (item of items(); track item.id) {
+  
   <ng-container
     [ngTemplateOutlet]="itemTemplate()"
     [ngTemplateOutletContext]="{ $implicit: item }"
