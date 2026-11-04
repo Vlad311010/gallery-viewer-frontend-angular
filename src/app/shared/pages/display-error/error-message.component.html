@@ -1,0 +1,23 @@
+<main class="error-page-content">
+  <div class="error-page-status">
+    Error code: {{status()}}
+  </div>
+
+  <h1>{{title()}}</h1>
+
+  @if (details(); as details) {
+    <p class="error-page-detail">
+      {{details}}
+    </p>
+  }
+
+  <div class="controls">
+    <button class="error-page-btn" (click)="back()">
+      Go back
+    </button>
+    
+    <button class="error-page-btn" (click)="reload()">
+      Reload
+    </button>
+  </div>
+</main>

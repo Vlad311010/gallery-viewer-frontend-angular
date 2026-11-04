@@ -64,7 +64,7 @@ export class Paginator {
       buttons.push({
         page: index, 
         symbol: index.toString(), 
-        isActive: index === currentPage,
+        isActive: index == currentPage,
       });   
     }
 
@@ -80,7 +80,6 @@ export class Paginator {
       isActive: false,
     }); 
 
-    console.log(buttons, currentPage, currentPage === 15, this.model().currentPage);
     return buttons;
   })
 
