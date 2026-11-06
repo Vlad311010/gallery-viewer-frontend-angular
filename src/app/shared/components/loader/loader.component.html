@@ -1,4 +1,8 @@
-<div class="loader" [style.color]="color()">
+<div class="loader" 
+  [style.color]="color()"
+  [style.width.px]="boundWidth()"
+  [style.height.px]="boundHeight()"
+>
   <div class="loader-spinner"
     [style.border-width.px]="thickness()" 
     [style.width.px]="size()"
