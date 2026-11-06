@@ -1,24 +1,34 @@
+<figure class="gallery-item-image">
+  @let metadata = assetMetaData();
 
-
-<figure className="gallery-item-image">
-  <item-link 
+  <item-link
     class="gallery-item-preview"
-    [style.display]="isLoadingPreview ? 'none' : 'block'"
-    [itemId]="item().id" 
-    [isGroup]="item().type | isGroup" 
+    [style.display]="isLoadingPreview || metadata.loading ? 'none' : null"
+    [itemId]="item().id"
+    [isGroup]="item().type | isGroup"
   >
-    <preview-media 
-      [itemId]="item().id" 
-      [showEditLable]="true"
-      [isGroup]="item().type | isGroup"
-      [src]="src()"
-      [isVideo]="!assetMetaData() ? false : assetMetaData() | isVideo"
-      (loadingChange)="onPreviewLoadingChange($event)"
-    />  
+    @if (!metadata.loading) {
+      @if (metadata.data | isVideo) {
+        <preview-media-video
+          [itemId]="item().id"
+          [showEditLable]="true"
+          [isGroup]="item().type | isGroup"
+          [src]="src()"
+          (loadingChange)="onPreviewLoadingChange($event)"
+        />
+      } @else {
+        <preview-media-image
+          [itemId]="item().id"
+          [showEditLable]="true"
+          [isGroup]="item().type | isGroup"
+          [src]="src()"
+          (loadingChange)="onPreviewLoadingChange($event)"
+        />
+      }
+    }
   </item-link>
 
   @if (isLoadingPreview) {
     <loader [size]="36" color="white" />
   }
 </figure>
-

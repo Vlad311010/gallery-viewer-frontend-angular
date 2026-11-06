@@ -1,0 +1,12 @@
+<img
+  [src]="previewUrl()"
+  (load)="onPreviewLoad()"
+  (error)="onPreviewError($event)"
+  [class]="classStyle()"
+/>  
+
+@if (showEditLable() && !isGroup()) {
+  <span class="edit-mode-label">
+    Edit
+  </span>
+}

@@ -24,19 +24,24 @@ $colors: (
       object-position: center;
 
       border: 4px solid;
+      border-radius: 3%;
     }
 
     &-asset {
       border-color: map.get($colors, 'asset-border');
-
-      &.video {
-        border-style: dashed;
-      }
+      
     }
 
     &-group {
       border-color: map.get($colors, 'group-border');
     }
+
+    &-asset,
+    &-group {
+      &.video {
+        border-style: dashed;
+      }
+    }    
   }
 
   .edit-mode-label {
