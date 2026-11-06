@@ -3,15 +3,16 @@
     [src]="previewUrl()"
     [class]="classStyle()"
     [controls]="false"
-    muted
+    [muted]="true"
     playsInline
     disablePictureInPicture
     disableRemotePlayback
     preload="auto"
-    loading="lazy"
+    loading="eager"
     [autoplay]="false"
     [loop]="true"
-    (error)="onPreviewError()"
+    (canplaythrough)="onPreviewLoad()"
+    (error)="onPreviewError($event)"
     (mouseenter)="onMouseEnter($event)"
     (mouseleave)="onMouseLeave($event)"
   ></video>
@@ -21,12 +22,12 @@
   <img
     [src]="previewUrl()"
     (load)="onPreviewLoad()"
-    (error)="onPreviewError()"
+    (error)="onPreviewError($event)"
     [class]="classStyle()"
   />  
 </ng-template>
 
-@if (isVideo()) {
+@if (!previewLoadingError() && isVideo()) {
   <ng-container *ngTemplateOutlet="previewMediaVideo" />
 }
 @else {

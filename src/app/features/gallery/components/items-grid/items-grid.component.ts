@@ -24,6 +24,7 @@ export class ItemsGrid {
   readonly itemTemplate = input.required<TemplateRef<{ $implicit: GridItem }>>();
 }
 
+
 export function isGroup(item: GridItem): boolean {
   return item.type === ItemType.Group;
 }

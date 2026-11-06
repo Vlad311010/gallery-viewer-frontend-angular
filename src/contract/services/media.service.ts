@@ -106,6 +106,33 @@ export class MediaService {
         });
     }
 
+    assetPreviewHead(id: number, observe?: 'body', options?: RequestOptions<'blob'>): Observable<Blob>;
+    assetPreviewHead(id: number, observe?: 'response', options?: RequestOptions<'blob'>): Observable<HttpResponse<Blob>>;
+    assetPreviewHead(id: number, observe?: 'events', options?: RequestOptions<'blob'>): Observable<HttpEvent<Blob>>;
+    assetPreviewHead(id: number, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/api/Media/asset/preview/${id}`;
+
+        let headers: HttpHeaders;
+        if (options?.headers instanceof HttpHeaders) {
+            headers = options.headers;
+        } else {
+            headers = new HttpHeaders(options?.headers);
+        }
+        // Advertise the response content type declared in the spec
+        if (!headers.has('Accept')) {
+            headers = headers.set('Accept', 'application/octet-stream');
+        }
+
+        return this.httpClient.request('head', url, {
+            observe,
+            headers,
+            responseType: 'blob',
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        });
+    }
+
     groupPreview(id: number, observe?: 'body', options?: RequestOptions<'blob'>): Observable<Blob>;
     groupPreview(id: number, observe?: 'response', options?: RequestOptions<'blob'>): Observable<HttpResponse<Blob>>;
     groupPreview(id: number, observe?: 'events', options?: RequestOptions<'blob'>): Observable<HttpEvent<Blob>>;
@@ -124,6 +151,33 @@ export class MediaService {
         }
 
         return this.httpClient.request('get', url, {
+            observe,
+            headers,
+            responseType: 'blob',
+            reportProgress: options?.reportProgress,
+            withCredentials: options?.withCredentials,
+            context: this.createContextWithClientId(options?.context)
+        });
+    }
+
+    groupPreviewHead(id: number, observe?: 'body', options?: RequestOptions<'blob'>): Observable<Blob>;
+    groupPreviewHead(id: number, observe?: 'response', options?: RequestOptions<'blob'>): Observable<HttpResponse<Blob>>;
+    groupPreviewHead(id: number, observe?: 'events', options?: RequestOptions<'blob'>): Observable<HttpEvent<Blob>>;
+    groupPreviewHead(id: number, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
+        const url = `${this.basePath}/api/Media/group/preview/${id}`;
+
+        let headers: HttpHeaders;
+        if (options?.headers instanceof HttpHeaders) {
+            headers = options.headers;
+        } else {
+            headers = new HttpHeaders(options?.headers);
+        }
+        // Advertise the response content type declared in the spec
+        if (!headers.has('Accept')) {
+            headers = headers.set('Accept', 'application/octet-stream');
+        }
+
+        return this.httpClient.request('head', url, {
             observe,
             headers,
             responseType: 'blob',

@@ -81,7 +81,15 @@ export class ApiUrls {
         return `${this.basePath}/api/Media/asset/preview/${id}`;
     }
 
+    public headAssetPreviewHeadUrl(id: number): string {
+        return `${this.basePath}/api/Media/asset/preview/${id}`;
+    }
+
     public getGroupPreviewUrl(id: number): string {
+        return `${this.basePath}/api/Media/group/preview/${id}`;
+    }
+
+    public headGroupPreviewHeadUrl(id: number): string {
         return `${this.basePath}/api/Media/group/preview/${id}`;
     }
 

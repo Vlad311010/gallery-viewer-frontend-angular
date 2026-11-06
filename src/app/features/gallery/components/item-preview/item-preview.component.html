@@ -11,7 +11,8 @@
       [itemId]="item().id" 
       [showEditLable]="true"
       [isGroup]="item().type | isGroup"
-      [isVideo]="false"
+      [src]="src()"
+      [isVideo]="!assetMetaData() ? false : assetMetaData() | isVideo"
       (loadingChange)="onPreviewLoadingChange($event)"
     />  
   </item-link>

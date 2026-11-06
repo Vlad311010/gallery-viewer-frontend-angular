@@ -9,7 +9,8 @@ import {
   of,
   OperatorFunction,
   startWith, 
-  switchMap} 
+  switchMap,
+  tap} 
 from 'rxjs';
 import { HttpErrorResponse } from '@angular/common/http';
 
@@ -19,9 +20,10 @@ export interface RequestState<T> {
   error: ApiError | null;
 }
 
-interface RequestStateOptions {
+interface RequestStateOptions<T> {
   errorMessage?: string;
   onLoadStart?: () => void;
+  onSuccess?: (data : T) => void
 }
 
 interface ApiError {
@@ -30,10 +32,46 @@ interface ApiError {
   title: string 
 }
 
+export function toRequestStateOnce<TResponse>(
+  request: Observable<TResponse>,
+  options: RequestStateOptions<TResponse> = {}
+): Signal<RequestState<TResponse>> {
+  return toSignal(
+    request.pipe(
+      toRequestStateOperator<TResponse>(options)
+    ),
+    {
+      initialValue: {
+        data: null,
+        loading: true,
+        error: null
+      }
+    }
+  );
+}
+
+export function toRequestData<TSource, TResponse>(
+  source: Observable<TSource>,
+  request: (value: TSource) => Observable<TResponse>,
+  fallbackValue: TResponse | null 
+): Signal<TResponse | null> {
+  return toSignal(
+    source.pipe(
+      distinctUntilChanged(),
+      switchMap(value => 
+        request(value).pipe(
+           catchError(() => of(fallbackValue))
+        )
+      )
+    ),
+    { initialValue: null }
+  );
+}
+
 export function toRequestState<TSource, TResponse>(
   source: Observable<TSource>,
   request: (value: TSource) => Observable<TResponse>,
-  options: RequestStateOptions = {}
+  options: RequestStateOptions<TResponse> = {}
 ): Signal<RequestState<TResponse>> {
   return toSignal(
     source.pipe(
@@ -53,7 +91,7 @@ export function toRequestState<TSource, TResponse>(
   );
 }
 
-function toRequestStateOperator<T>(options: RequestStateOptions = {}): OperatorFunction<T, RequestState<T>> {
+function toRequestStateOperator<T>(options: RequestStateOptions<T> = {}): OperatorFunction<T, RequestState<T>> {
   const initialState: RequestState<T> = {
     data: null,
     loading: true,
@@ -65,6 +103,7 @@ function toRequestStateOperator<T>(options: RequestStateOptions = {}): OperatorF
       options.onLoadStart?.();
       return source;
     }).pipe(
+      tap(data => options.onSuccess?.(data)),
       map(data => ({
         data,
         loading: false,

@@ -1,7 +1,6 @@
 import { NgTemplateOutlet } from '@angular/common';
-import { Component, computed, inject, input, output, signal } from '@angular/core';
+import { Component, computed, effect, input, output, signal } from '@angular/core';
 import { CONSTANTS } from '@app/constants/static-files-constants';
-import { ApiUrls } from '@contract/urls';
 
 @Component({
   selector: 'preview-media',
@@ -11,46 +10,52 @@ import { ApiUrls } from '@contract/urls';
 })
 export class PreviewMedia {
   itemId = input.required<number>();
+  src = input.required<string>();
+  isGroup = input.required<boolean>();
   showEditLable = input.required<boolean>();
-  isGroup = input<boolean>(false);
-  isVideo = input<boolean>(false);
+  isVideo = input.required<boolean>();
 
   readonly loadingChange = output<boolean>();
   
-  private readonly apiUrls = inject(ApiUrls);
+  private readonly previewLoadingError = signal(false);
+
+  constructor() {
+  effect(() => {
+    this.isVideo();
+
+    this.previewLoadingError.set(false);
+    this.loadingChange.emit(true);
+  });
+}
   
-  private previewUrl = computed(() =>
-    this.isGroup()
-      ? this.apiUrls.getGroupPreviewUrl(this.itemId())
-      : this.apiUrls.getAssetPreviewUrl(this.itemId())
+  private readonly previewUrl = computed(() =>
+    this.previewLoadingError()
+      ? CONSTANTS.ASSET_NOT_FOUND_IMAGE
+      : this.src()
   )
-  
-  readonly classStyle = computed(() =>
+  private readonly classStyle = computed(() => 
     this.isGroup()
       ? 'item-group'
       : `item-asset ${this.isVideo() ? 'video' : ''}`
   );
-
-  
-  onPreviewLoad() {
+    
+  private async onPreviewLoad() {
     this.loadingChange.emit(false);
-  }
-
-  onPreviewError(): void {
-    this.loadingChange.emit(false);
-    this.previewUrl = signal(CONSTANTS.ASSET_NOT_FOUND_IMAGE);
   } 
 
-  onMouseEnter(event: MouseEvent): void {
+  private onPreviewError(event: Event): void {
+    this.previewLoadingError.set(true)
+    this.loadingChange.emit(false);
+  } 
+
+  private onMouseEnter(event: MouseEvent): void {
     const video = event.currentTarget as HTMLVideoElement;
     video.play();
   }
 
-  onMouseLeave(event: MouseEvent): void {
+  private onMouseLeave(event: MouseEvent): void {
     const video = event.currentTarget as HTMLVideoElement;
     video.pause();
     video.currentTime = 0;
   }
-
-  
 }

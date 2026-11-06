@@ -27,7 +27,7 @@ export class GalleryList {
 
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
-
+  
   readonly itemsState: Signal<RequestState<DisplayItemResponseModelPagedData>> = toRequestState(
     toObservable(this.page),
     page => this.assetBrowserService.listItems(
