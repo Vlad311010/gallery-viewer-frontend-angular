@@ -1,4 +1,4 @@
-import { Component, input, inject, signal, OnInit, numberAttribute, Signal } from '@angular/core';
+import { Component, input, inject, signal, OnInit, numberAttribute, Signal, computed } from '@angular/core';
 import { ItemPreview } from "../item-preview/item-preview.component";
 import { ItemsGrid } from '../items-grid/items-grid.component';
 import { AssetBrowserService } from '@contract/services/assetBrowser.service';
@@ -9,6 +9,7 @@ import { Paginator } from '../paginator/paginator.component';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { RequestState, toRequestState } from '@app/shared/utils/request-state';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
+import { PagedDirective } from '@shared/directives/paged.directive';
 
 
 @Component({
@@ -17,17 +18,15 @@ import { DisplayError } from '@app/shared/pages/display-error/error-message.comp
   styleUrl: './gallery.component.scss',
   imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError]
 })
-export class GalleryList {
+export class GalleryList extends PagedDirective {
   galleryName = input.required<string>();
-  page = input<number>(1, { transform: (value) => numberAttribute(value, 1) });
-  
-  itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
   
   assetBrowserService = inject(AssetBrowserService);
-
+  
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
   
+  itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
   readonly itemsState: Signal<RequestState<DisplayItemResponseModelPagedData>> = toRequestState(
     toObservable(this.page),
     page => this.assetBrowserService.listItems(
@@ -45,4 +44,8 @@ export class GalleryList {
       })
     }
   );
+
+  totalPages = computed(() => this.itemsState().data?.pagesCount);
+  maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
+  maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
 }

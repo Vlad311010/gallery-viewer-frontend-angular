@@ -11,8 +11,6 @@ import { IsVideoPipe } from '../../../../shared/pipes/is-video';
 import { PreviewMediaImage } from '../preview-media/preview-media-image/preview-media-image.component';
 import { PreviewMediaVideo } from '../preview-media/preview-media-video/preview-media-video.component';
 
-
-
 @Component({
   selector: 'item-preview',
   templateUrl: './item-preview.component.html',

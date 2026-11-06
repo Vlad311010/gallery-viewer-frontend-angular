@@ -1,0 +1,26 @@
+@let state = itemsState();
+
+@if (state.loading) {
+  LOADING
+} @else if (state.error) {
+  <error-message 
+    [status]="state.error.status" 
+    [title]="state.error.title" 
+    [details]="state.error.details" 
+  />
+} @else if (state.data; as data) {
+  <items-grid [items]="data.items | toGridItem" [itemTemplate]="assetPreview">
+    <ng-template #assetPreview let-item>
+      <item-preview [item]="item" />
+    </ng-template>  
+  </items-grid>
+
+  <paginator
+    [model]="{
+      currentPage: page(),
+      maxButtonsDisplayed: maxButtonsDisplayed(),
+      maxPreviousPageButtons: maxPreviousPageButtons(),
+      totalPages: data.pagesCount
+    }"
+  />
+}
