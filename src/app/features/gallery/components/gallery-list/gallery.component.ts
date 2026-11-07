@@ -1,4 +1,4 @@
-import { Component, input, inject, signal, OnInit, numberAttribute, Signal, computed } from '@angular/core';
+import { Component, input, inject, signal, OnInit, numberAttribute, Signal, computed, Directive } from '@angular/core';
 import { ItemPreview } from "../item-preview/item-preview.component";
 import { ItemsGrid } from '../items-grid/items-grid.component';
 import { AssetBrowserService } from '@contract/services/assetBrowser.service';
@@ -10,13 +10,15 @@ import { toObservable } from '@angular/core/rxjs-interop';
 import { RequestState, toRequestState } from '@app/shared/utils/request-state';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
+import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
 
 
 @Component({
   selector: 'app-gallery-list',
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
-  imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError]
+  imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError],
+  hostDirectives: [PageScrollBinds],
 })
 export class GalleryList extends PagedDirective {
   galleryName = input.required<string>();
@@ -25,6 +27,10 @@ export class GalleryList extends PagedDirective {
   
   readonly loading = signal(false);
   readonly error = signal<string | null>(null);
+
+  totalPages = computed(() => this.itemsState().data?.pagesCount);
+  maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
+  maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
   
   itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
   readonly itemsState: Signal<RequestState<DisplayItemResponseModelPagedData>> = toRequestState(
@@ -44,8 +50,4 @@ export class GalleryList extends PagedDirective {
       })
     }
   );
-
-  totalPages = computed(() => this.itemsState().data?.pagesCount);
-  maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
-  maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
 }

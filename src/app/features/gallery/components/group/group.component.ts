@@ -9,13 +9,14 @@ import { ItemPreview } from '../item-preview/item-preview.component';
 import { ToGridItem } from '@shared/pipes/to-grid-item';
 import { Paginator } from '../paginator/paginator.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
-
+import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
 
 
 @Component({
   selector: 'group',
   templateUrl: './group.component.html',
-  imports: [DisplayError, ItemsGrid, ItemPreview, ToGridItem, Paginator]
+  imports: [DisplayError, ItemsGrid, ItemPreview, ToGridItem, Paginator],
+  hostDirectives: [PageScrollBinds]
 })
 export class Group extends PagedDirective {
   id = input.required<number, string>({ transform: (value) => numberAttribute(value, 1) });

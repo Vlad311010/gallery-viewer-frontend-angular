@@ -112,17 +112,16 @@ export class Paginator {
     });
   }
 
+  private readonly prevPageBind : Keybind = new Keybind( 
+    [INPUTS.PREV_PAGE_WASD, INPUTS.PREV_PAGE_ARROWS],
+    () => this.previous(),
+  )
+  private readonly nextPageBind : Keybind = new Keybind(
+    [INPUTS.NEXT_PAGE_WASD, INPUTS.NEXT_PAGE_ARROWS],
+    () => this.next(),
+  ) 
   onKeyDown(event: KeyboardEvent): void {
-    const prevPageBind : Keybind = new Keybind( 
-      [INPUTS.PREV_PAGE_WASD, INPUTS.PREV_PAGE_ARROWS],
-      () => this.previous(),
-    )
-    const nextPageBind : Keybind = new Keybind(
-      [INPUTS.NEXT_PAGE_WASD, INPUTS.NEXT_PAGE_ARROWS],
-      () => this.next(),
-    ) 
-    
-    handleInput(event, [prevPageBind, nextPageBind]);
+    handleInput(event, [this.prevPageBind, this.nextPageBind]);
   }
 }
 
