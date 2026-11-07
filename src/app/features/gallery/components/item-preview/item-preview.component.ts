@@ -7,9 +7,10 @@ import { Loader } from '@app/shared/components/loader/loader.component';
 import { RequestState, toRequestState } from '@app/shared/utils/request-state';
 import { toObservable } from '@angular/core/rxjs-interop';
 import { MediaService } from '@contract/index';
-import { IsVideoPipe } from '../../../../shared/pipes/is-video';
+import { IsVideoPipe } from '@shared/pipes/is-video';
 import { PreviewMediaImage } from '../preview-media/preview-media-image/preview-media-image.component';
 import { PreviewMediaVideo } from '../preview-media/preview-media-video/preview-media-video.component';
+import { ViewStateService } from '@app/shared/services/view-state.service';
 
 @Component({
   selector: 'item-preview',
@@ -22,6 +23,9 @@ export class ItemPreview {
 
   private readonly apiUrls = inject(ApiUrls);
   private readonly mediaService = inject(MediaService);
+  private readonly galleryState = inject(ViewStateService);
+
+  readonly state = this.galleryState.getState;
 
   private isLoadingPreview = true;
 

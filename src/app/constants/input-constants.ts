@@ -20,7 +20,7 @@ export const INPUTS = {
   SEARCH_INPUT_FOCUS: 'KeyQ',
   FOLLOW_PREVIEW_LINK: 'KeyF',
   FULLSCREEN_MODE: 'KeyF',
-  SWITCH_MODE: 'KeyE',
+  SWITCH_VIEW_MODE: 'KeyE',
 
   // Utils (ctrl + ...)
   COPY_NAME: 'KeyC',

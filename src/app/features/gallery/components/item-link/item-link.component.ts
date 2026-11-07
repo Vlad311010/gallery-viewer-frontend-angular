@@ -10,7 +10,7 @@ import { ActivatedRoute, RouterLink } from '@angular/router';
 export class ItemLink {
   itemId = input.required<number>();
   isGroup = input.required<boolean>();  
-  isEditMode = input<boolean>(false);
+  editModeOn = input.required<boolean>();
 
   private readonly route = inject(ActivatedRoute);
 
@@ -19,7 +19,7 @@ export class ItemLink {
   private readonly directTo = computed(() =>
     this.isGroup() 
       ? `group/${this.itemId()}`
-      : this.isEditMode() 
+      : this.editModeOn() 
         ? `asset/${this.itemId()}`
         : `asset/${this.itemId()}/view`
   )

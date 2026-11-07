@@ -6,7 +6,7 @@ export abstract class PreviewMediaBase {
   itemId = input.required<number>();
   src = input.required<string>();
   isGroup = input.required<boolean>();
-  showEditLable = input.required<boolean>();
+  showEditLabel = input.required<boolean>();
 
   readonly loadingChange = output<boolean>();
 
@@ -20,7 +20,6 @@ export abstract class PreviewMediaBase {
     this.previewLoadingError.set(true)
     this.onPreviewLoad();
   } 
-
 
   readonly previewUrl = computed(() =>
     this.previewLoadingError()
