@@ -1,0 +1,31 @@
+@let state = galleriesState();
+
+@if (state.loading) {
+  LOADING
+} @else if (state.error) {
+  <error-message 
+    [status]="state.error.status" 
+    [title]="state.error.title" 
+    [details]="state.error.details" 
+  />
+} @else if (state.data; as data) {
+  <div class="galleries-grid">
+    @for (galleryThumbnail of state.data; track galleryThumbnail.id) {
+      <ng-container 
+        [ngTemplateOutlet]="gallerySelector"
+        [ngTemplateOutletContext]="{ gallery: galleryThumbnail}"
+      />
+    }
+  </div>
+}
+
+<ng-template #gallerySelector let-gallery="gallery" >
+  <a
+    [routerLink]="`gallery/${gallery.name}`"
+    class="gallery-thumbnail"
+    [style.background-image]="`url(${gallery.thumbnailUrl})`"
+  >
+    {{gallery.name | uppercase}}
+  </a>
+  
+</ng-template>
