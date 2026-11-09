@@ -9,6 +9,7 @@
     [details]="state.error.details" 
   />
 } @else if (state.data; as data) {
+  <navigation-bar></navigation-bar>
   <items-grid [items]="data.items | toGridItem" [itemTemplate]="assetPreview">
     <ng-template #assetPreview let-item>
       <item-preview [item]="item" />

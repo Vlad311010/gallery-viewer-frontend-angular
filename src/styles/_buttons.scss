@@ -1,0 +1,289 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'variables' as vars;
+
+// ==========================================================================
+// Variables
+// ==========================================================================
+
+// Colors
+$color-purple: rgb(139, 92, 246);
+
+$color-text-primary-hover: #f3e8ff;
+
+$color-border: #7347d9;
+$color-border-hover: #8c27ff;
+$color-focus: #d8b4fe;
+
+$edit-element-background-color: red;
+
+// Surfaces
+$glow-hover: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.07);
+$glow-active: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.35);
+
+// Glow
+$glow-subtle: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.2);
+$glow-medium: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.4);
+$glow-strong: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.18);
+
+$text-glow: rgba(192, 132, 252, 0.55);
+$text-glow-hover: rgba(216, 180, 254, 0.8);
+$text-glow-strong: rgba(168, 85, 247, 0.55);
+
+// Shadows
+$shadow-active: rgba(0, 0, 0, 0.25);
+
+// Shape
+$radius-sm: 3px;
+$radius-md: 6px;
+
+// Motion
+$transition-fast: 160ms ease;
+
+
+// ==========================================================================
+// Button
+// ==========================================================================
+
+.button {
+  // Layout
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  min-width: 60px;
+  min-height: 40px;
+  padding-inline: 20px;
+
+  // Appearance
+  border: 1px solid transparent;
+  border-radius: $radius-sm;
+
+  background: transparent;
+  color: map.get(vars.$text, 'text-primary');
+
+  // Typography
+  font: inherit;
+  font-size: 13px;
+  text-align: center;
+
+  // Interaction
+  cursor: pointer;
+
+  transition:
+    color $transition-fast,
+    background-color $transition-fast,
+    border-color $transition-fast,
+    box-shadow $transition-fast,
+    text-shadow $transition-fast,
+    transform $transition-fast;
+
+  &.hidden {
+    visibility: hidden;
+  }
+
+  &:focus-visible {
+    outline: 2px solid $color-focus;
+    outline-offset: 4px;
+  }
+
+  // ------------------------------------------------------------------------
+  // Disabled
+  // ------------------------------------------------------------------------
+
+  &.disabled,
+  &:disabled {
+    cursor: not-allowed;
+    opacity: 0.45;
+    transform: none;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      color: map.get(vars.$text, 'text-primary');
+      background: transparent;
+      border-color: transparent;
+      transform: none;
+      text-shadow: none;
+      box-shadow: none;
+    }
+
+    &:active {
+      transform: none;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Neon
+  // ------------------------------------------------------------------------
+
+  &-neon {
+    min-height: 42px;
+    padding-inline: 26px;
+
+    border: 3px solid $color-border;
+
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    text-shadow: 0 0 8px $text-glow;
+
+    box-shadow:
+      0 0 8px $glow-subtle,
+      inset 0 0 8px rgba($color-purple, 0.06);
+
+    &:hover {
+      color: map.get(vars.$text, 'text-secondary');
+      border-color: $color-border-hover;
+
+      background: $glow-hover;
+
+      text-shadow:
+        0 0 6px $text-glow-hover,
+        0 0 16px $text-glow-strong;
+
+      box-shadow:
+        0 0 10px $glow-medium,
+        0 0 24px $glow-strong,
+        inset 0 0 12px rgba($color-purple, 0.08);
+
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      background: $glow-active;
+
+      box-shadow:
+        0 0 8px rgba($color-purple, 0.3),
+        inset 0 0 10px $shadow-active;
+
+      transform: translateY(0);
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Subtle
+  // ------------------------------------------------------------------------
+
+  &-subtle {
+    padding: 6px 12px;
+
+    border-color: $color-border;
+    border-radius: $radius-md;
+
+    background: transparent;
+    color: map.get(vars.$text, 'text-primary');
+
+    &:hover {
+      background: $glow-hover;
+      border-color: $color-border-hover;
+      color: map.get(vars.$text, 'text-secondary');
+
+      transform: translateY(-1px);
+    }
+
+    &:active {
+      background: $glow-active;
+      transform: translateY(0);
+    }
+
+    &.disabled:hover,
+    &:disabled:hover {
+      color: map.get(vars.$text, 'text-primary');
+      border-color: $color-border;
+      background: transparent;
+      transform: none;
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Control
+  // ------------------------------------------------------------------------
+
+  &-control {
+    min-width: 0;
+    min-height: 0;
+    padding: 3px 8px;
+
+    border: 2px solid map.get(vars.$colors, 'defaukt-purple');
+    border-radius: 3px;
+
+    background: $edit-element-background-color;
+    color: #eee7f8;
+
+    font-size: 11px;
+    line-height: 1.2;
+    text-shadow: none;
+    box-shadow: none;
+
+    &:hover {
+      color: map.get(vars.$text, 'text-secondary');
+      border-color: $color-border-hover;
+      background: $glow-hover;
+      box-shadow: 0 0 6px $glow-subtle;
+    }
+
+    &:active {
+      background: $glow-active;
+      transform: translate(0, 10%);
+    }
+  }
+
+  // ------------------------------------------------------------------------
+  // Sizes
+  // ------------------------------------------------------------------------
+
+  &-fit {
+    min-width: 0;
+    min-height: 0;
+  }
+
+  &-sm {
+    min-width: 40px;
+    min-height: 32px;
+    padding-inline: 14px;
+    font-size: 11px;
+  }
+
+  &-md {
+    min-width: 60px;
+    min-height: 40px;
+    padding-inline: 20px;
+    font-size: 13px;
+  }
+
+  &-lg {
+    min-width: 90px;
+    min-height: 48px;
+    padding-inline: 26px;
+    font-size: 14px;
+  }
+
+  &-xl {
+    min-width: 190px;
+    min-height: 58px;
+    padding-inline: 32px;
+    font-size: 16px;
+  }
+}
+
+
+// ==========================================================================
+// Properties
+// ==========================================================================
+
+.full-width {
+  max-width: none;
+  width: 100%;
+}
+
+
+// ==========================================================================
+// Accessibility
+// ==========================================================================
+
+@media (prefers-reduced-motion: reduce) {
+  .button {
+    transition: none;
+  }
+}

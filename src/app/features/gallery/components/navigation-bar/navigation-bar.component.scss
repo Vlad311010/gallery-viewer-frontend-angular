@@ -1,0 +1,48 @@
+@use 'buttons.scss';
+
+/*:host {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  width: 100%;
+  padding: 10px 12px;
+
+  box-sizing: border-box;
+}*/
+
+/*:host {
+  display: flex;
+  align-items: center;
+
+  width: 100%;
+  gap: 12px;
+  
+}*/
+
+.navigation-container {
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+  padding: 10px 12px;
+
+  &-left {
+    display: flex;
+    flex: 0 1 auto;
+    align-items: center;
+  }
+
+  &-middle {
+    flex: 1 1 auto;
+    min-width: 0;
+  }
+
+  &-right {
+    display: flex;
+    flex: 0 0 auto;
+    align-items: center;
+    justify-content: flex-end;
+    gap: 8px;
+  }
+}

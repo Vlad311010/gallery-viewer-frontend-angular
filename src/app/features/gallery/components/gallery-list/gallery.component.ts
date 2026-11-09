@@ -11,13 +11,14 @@ import { RequestState, toRequestState } from '@app/shared/utils/request-state';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
+import { NavigationBar } from '../navigation-bar/navigation-bar.component';
 
 
 @Component({
   selector: 'app-gallery-list',
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
-  imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError],
+  imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError, NavigationBar],
   hostDirectives: [PageScrollBinds],
 })
 export class GalleryList extends PagedDirective {
