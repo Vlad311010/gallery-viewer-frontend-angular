@@ -1,20 +1,15 @@
 import { Component, computed, effect, inject, input, numberAttribute, signal } from '@angular/core';
-import { toObservable } from '@angular/core/rxjs-interop';
 import { CONSTANTS } from '@app/constants/gallery-constants';
-import { toRequestState } from '@app/shared/utils/request-state';
-import { AssetBrowserService, AssetPosition, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, DisplayItemType, SetGroupCoverRequestModel } from '@contract/index';
+import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, SetGroupCoverRequestModel } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { ItemsGrid, ItemType } from '../items-grid/items-grid.component';
 import { GroupGridItem, ItemPreviewGroup } from '../item-preview/item-preview-group/item-preview-group.component';
-import { ItemPreview } from '../item-preview/item-preview.component';
-import { ToGridItem } from '@shared/pipes/to-grid-item';
 import { Paginator } from '../paginator/paginator.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
 import { GroupsService } from '@contract/services/groups.service';
-import { lastValueFrom, map } from 'rxjs';
-import { injectQuery } from '@tanstack/angular-query-experimental';
-
+import { lastValueFrom } from 'rxjs';
+import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 
 @Component({
   selector: 'group',
@@ -27,53 +22,15 @@ export class Group extends PagedDirective {
 
   private readonly assetBrowserService = inject(AssetBrowserService);
   private readonly groupsService = inject(GroupsService);
+  private readonly urlsService = inject(ApiUrlsService)
+  private readonly queryClient = inject(QueryClient)
 
   override totalPages = computed(() => this.itemsQuery.data()?.pagesCount);
   override maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
   override maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
   
   itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
-  /*private readonly itemsState = toRequestState(
-    toObservable(this.page),
-    page => this.assetBrowserService.listGroup(
-      this.id(),
-      this.itemsPerPage * (page - 1),
-      this.itemsPerPage
-    ),
-    {
-      errorMessage: 'Failed to load gallery items',
-      onLoadStart: () => window.scrollTo({
-        top: 0,
-        left: 0,
-        behavior: 'instant'
-      })
-    }
-  );*/
-
-  readonly itemsQuery = injectQuery(() => ({
-    queryKey: ['assetBrowserService', this.id(), this.page()],
-    queryFn: () =>
-      lastValueFrom(
-        this.assetBrowserService.listGroup(
-          this.id(),
-          this.itemsPerPage * (this.page() - 1),
-          this.itemsPerPage
-        )
-      ),
-    select: (response : DisplayGroupItemResponseModelPagedData) => ({
-      ...response,
-      items: response.items.map(x => this.toAssetDetails(x))
-    })
-  }));
-
-  readonly groupDetailsQuery = injectQuery(() => ({
-    queryKey: ['s'],
-    queryFn: () => 
-      lastValueFrom(
-        this.groupsService.groupDetails(this.id())
-      ),
-  }))
-
+  
   constructor() {
     super();
 
@@ -90,28 +47,83 @@ export class Group extends PagedDirective {
     });
   }
 
-  private toAssetDetails(asset: DisplayGroupItemResponseModel) : GroupGridItem{ 
-    const groupDetailsData = this.groupDetailsQuery.isLoading() ? undefined : this.groupDetailsQuery.data();
+  readonly itemsQuery = injectQuery(() => ({
+    queryKey: [
+      AssetBrowserService.name, 
+      ...this.urlsService.getListGroupQueryKey(this.id()),
+      {
+        page: this.page()
+      }
+    ],
+    queryFn: () => 
+      lastValueFrom(
+        this.assetBrowserService.listGroup(
+          this.id(),
+          this.itemsPerPage * (this.page() - 1),
+          this.itemsPerPage
+        )
+      )
+  }));
+
+  readonly groupDetailsQuery = injectQuery(() => ({
+    queryKey: [
+      GroupsService.name,
+      ...this.urlsService.getGroupDetailsQueryKey(this.id()),
+    ],
+    queryFn: () => 
+      lastValueFrom(
+        this.groupsService.groupDetails(this.id())
+      ),
+  }))
+
+  readonly setCoverMutation = injectMutation(() => ({
+    mutationFn: (body: SetGroupCoverRequestModel) =>
+      lastValueFrom(
+        this.groupsService.groupSetCover(
+          this.id(),
+          body,
+          'response'
+        )
+      ),
+
+    onSuccess: async response => {
+      this.queryClient.invalidateQueries({
+        queryKey: [
+          GroupsService.name,
+          ...this.urlsService.getGroupDetailsQueryKey(this.id()),
+        ],
+      })
+    }
+  }));
+
+  readonly displayItems = computed(() => {
+    const pagedItems = this.itemsQuery.data();
+    const groupDetails = this.groupDetailsQuery.data();
+
+    if (!pagedItems || !groupDetails) return null;
+
+    return {
+      ...pagedItems,
+      items: pagedItems.items.map(x => this.toAssetDetails(x, groupDetails))
+    }
+  })
+
+  private toAssetDetails(asset: DisplayGroupItemResponseModel, groupDetails: AssetGroupResponseModel) : GroupGridItem{ 
     return {
       id: asset.id,
       type: ItemType.Asset,
       title: asset.title,
       count: asset.count,
       
-      isAssetAddRemoveAllowed: groupDetailsData?.isAssetAddRemoveAllowed ?? false,
+      isAssetAddRemoveAllowed: groupDetails.isAssetAddRemoveAllowed ?? false,
       position: asset.inGroupPosition ?? -1,
-      isCoverAsset: !groupDetailsData ? false : groupDetailsData.coverAssetPosition == asset.inGroupPosition
+      isCoverAsset: groupDetails.coverAssetPosition == asset.inGroupPosition
     }
   }
 
   onCoverFlagChange(assetId: number, value: boolean) {
-    if (value) {
-      const body : SetGroupCoverRequestModel = { assetId: assetId };
-      /*this.groupsService.groupSetCover(this.id(), body, 'response')
-      .subscribe(response => {
-        console.log(response.status);
-      });*/
-    }
+    const body : SetGroupCoverRequestModel = { assetId: assetId };
+    this.setCoverMutation.mutate(body);
   }
 
   onPositionValueChange(event: Event) {

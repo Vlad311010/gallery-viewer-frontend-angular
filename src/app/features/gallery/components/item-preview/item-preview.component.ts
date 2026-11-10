@@ -1,5 +1,5 @@
 import { Component, computed, inject, input, Signal } from '@angular/core';
-import { ApiUrls } from '@contract/urls';
+import { ApiUrlsService } from '@contract/urls';
 import { ItemLink } from '../item-link/item-link.component';
 import { GridItem, ItemType } from '../items-grid/items-grid.component';
 import { IsGroupPipe } from '@shared/pipes/is-group';
@@ -21,7 +21,7 @@ import { ViewStateService } from '@app/shared/services/view-state.service';
 export class ItemPreview {
   item = input.required<GridItem>();
 
-  private readonly apiUrls = inject(ApiUrls);
+  private readonly apiUrls = inject(ApiUrlsService);
   private readonly mediaService = inject(MediaService);
   private readonly galleryState = inject(ViewStateService);
 

@@ -1,6 +1,6 @@
 @let editModeOn = viewStateService.getState().editModeOn;
 
-<item-preview [item]="item()"></item-preview>
+<item-preview [item]="{id:id(), type: type()}"></item-preview>
 
 @if (editModeOn) {
   <div class="editing-elements">
@@ -13,7 +13,8 @@
     <label>
       <input readOnly
         type="checkbox"
-        [checked]="item().isCoverAsset"
+        [disabled]="isCoverAsset()"
+        [checked]="isCoverAsset()"
         (click)="onCoverFlagChange($event)"
       />
       Cover
@@ -22,10 +23,10 @@
   </div>
 
   <div class="position-display">
-      Normalized position: {{item().position}}
+      Normalized position: {{position()}}
   </div>
 
-  @if (item().isAssetAddRemoveAllowed) {
+  @if (isAssetAddRemoveAllowed()) {
     <div class="button-container">
       <button class="button button-control button-fit">REMOVE</button>
     </div>

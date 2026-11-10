@@ -7,15 +7,6 @@ import { AssetsService } from '@contract/index';
 import { toRequestState } from '@app/shared/utils/request-state';
 import { toObservable } from '@angular/core/rxjs-interop';
 
-interface GroupAssetDetails {
-  isAssetAddRemoveAllowed: boolean,
-  
-  position: number,
-  // updateAssetPosition: updateAssetPosition,
-  
-  isCoverAsset: boolean // coverAssetId: coverAssetId,
-  // setCoverAsset: setCoverAsset
-}
 
 export interface GroupGridItem extends GridItem  {
   isAssetAddRemoveAllowed: boolean,
@@ -31,8 +22,14 @@ export interface GroupGridItem extends GridItem  {
   imports: [ItemPreview],
 })
 export class ItemPreviewGroup {
-  item = input.required<GroupGridItem>();
-  
+  id = input.required<number>(); 
+  type = input.required<ItemType>();
+  position = input.required<number>();
+  isAssetAddRemoveAllowed = input.required<boolean>();
+  isCoverAsset = input.required<boolean>();
+  title = input<string>();
+  count = input<number>(); 
+
   coverFlagChange = output<boolean>();
 
   viewStateService = inject(ViewStateService)

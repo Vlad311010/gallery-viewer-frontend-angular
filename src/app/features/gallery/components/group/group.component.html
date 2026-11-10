@@ -6,11 +6,15 @@
   <error-message 
     [error]="state.error()"
   />
-} @else if (state.data(); as data) {
+} @else if (displayItems(); as data) {
   <items-grid [items]="data.items" [itemTemplate]="assetPreview">
     <ng-template #assetPreview let-item>
       <item-preview-group 
-        [item]="item"
+        [id]="item.id"
+        [type]="item.type"
+        [position]="item.position"
+        [isAssetAddRemoveAllowed]="item.isAssetAddRemoveAllowed"
+        [isCoverAsset]="item.isCoverAsset"
         (coverFlagChange)="onCoverFlagChange(item.id, $event)";
       />
     </ng-template>  

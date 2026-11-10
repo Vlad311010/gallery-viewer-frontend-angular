@@ -1,6 +1,6 @@
 import { Component, inject, Signal } from '@angular/core';
 import { RequestState, toRequestStateOnceWithTransoformation } from '@app/shared/utils/request-state';
-import { ApiUrls, GalleryService } from '@contract/index';
+import { ApiUrlsService, GalleryService } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { NgTemplateOutlet, UpperCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
@@ -19,7 +19,7 @@ interface GalleryThumbnail {
 })
 export class GallerySelect {
   galleryService = inject(GalleryService);
-  apiUrls = inject(ApiUrls);
+  apiUrls = inject(ApiUrlsService);
 
   private readonly galleriesState : Signal<RequestState<GalleryThumbnail[] | undefined>> = toRequestStateOnceWithTransoformation(
     this.galleryService.galleries(),

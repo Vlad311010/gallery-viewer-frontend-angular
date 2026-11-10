@@ -1,8 +1,10 @@
 import * as path from "path";
-import { VariableDeclarationKind, Scope } from "ts-morph";
+import { Scope, ClassDeclaration, StructureKind } from "ts-morph";
+import type { ParameterDeclarationStructure, TypeAliasDeclaration } from "ts-morph";
+import type { NormalizedOperation, Parameter, PluginGeneratorContext } from "ng-openapi";
 
-const tsType = (parameter: (typeof parameters)[number]) => {
-    const { type, format } = parameter.schema;
+const tsType = (parameter: Parameter) => {
+    const type = parameter.schema?.type;
 
     switch (type) {
         case "integer":
@@ -17,7 +19,7 @@ const tsType = (parameter: (typeof parameters)[number]) => {
     }
 };
 
-const urlTemplate = (operation) => operation.path.replace(
+const urlTemplate = (operation: NormalizedOperation) => operation.path.replace(
   /\{([^}]+)\}/g,
   (_, name: string) => `\${${name}}`,
 );
@@ -26,7 +28,7 @@ const urlTemplate = (operation) => operation.path.replace(
 export class UrlsPlugin {
     private readonly context;
 
-    constructor(context) {
+    constructor(context: PluginGeneratorContext) {
         this.context = context;
     }
 
@@ -52,8 +54,17 @@ export class UrlsPlugin {
           namedImports: ["BASE_PATH_DEFAULT"],
         });
 
+        const queryKeyDescriptorType = file.addTypeAlias({
+          name: "QueryKeyDescriptor",
+          isExported: true,
+          type: `[
+            url: string,
+            parameters: Record<string, unknown>
+          ]`
+        });
+
         const classDeclaration = file.addClass({
-            name: "ApiUrls",
+            name: "ApiUrlsService",
             isExported: true,
             decorators: [
                 {
@@ -76,34 +87,80 @@ export class UrlsPlugin {
           const operationId = operation.operationId;
 
           if (!operationId || !operation.path) {
-              onWarning?.(
-                  `Skipping operation without operationId or path: ${operation.method} ${operation.path}`,
-              );
-              continue;
+            onWarning?.(
+                `Skipping operation without operationId or path: ${operation.method} ${operation.path}`,
+            );
+            continue;
           }
 
-          const variableName =
-              `${method}${operationId.charAt(0).toUpperCase()}${operationId.slice(1)}Url`;
+          const urlGetterName =
+            `${method}${operationId.charAt(0).toUpperCase()}${operationId.slice(1)}Url`;
+          const queryKeyGetterName =
+            `${method}${operationId.charAt(0).toUpperCase()}${operationId.slice(1)}QueryKey`;
+          const queryKeyName =
+            `${method}${operationId.charAt(0).toUpperCase()}${operationId.slice(1)}`;
             
           const url = urlTemplate(operation);
-          const methodParameters = operation.parameters
+          let methodParameters : ParameterDeclarationStructure[] | undefined = undefined;
+          if (operation.parameters) {
+            methodParameters = operation.parameters
             .filter((parameter) => parameter.in === "path")
             .map((parameter) => ({
               name: parameter.name,
               type: tsType(parameter),
+              kind: StructureKind.Parameter
             }));
+          }
           
-          classDeclaration.addMethod({
-              name: variableName,
-              scope: Scope.Public,
-              parameters: methodParameters,
-              returnType: "string",
-              statements: [
-                  `return \`\${this.basePath}${url}\`;`,
-              ]
-          });
+          this.generateUrlGetter(classDeclaration, urlGetterName, url, methodParameters);
+          this.generateQueryKeyGetter(classDeclaration, queryKeyDescriptorType, queryKeyGetterName, queryKeyName, methodParameters);
         }
+
 
         file.formatText();
     }
+
+    private generateUrlGetter(
+      classDeclaration: ClassDeclaration,
+      name: string,
+      url: string,
+      methodParameters?: ParameterDeclarationStructure[]
+    ) {
+      classDeclaration.addMethod({
+        name: name,
+        scope: Scope.Public,
+        parameters: methodParameters,
+        returnType: "string",
+        statements: [
+          `return \`\${this.basePath}${url}\`;`,
+        ]
+      });
+    }
+
+    private generateQueryKeyGetter(
+      classDeclaration: ClassDeclaration,
+      returnType: TypeAliasDeclaration,
+      name: string,
+      keyName: string,
+      methodParameters?: ParameterDeclarationStructure[]
+    ) {
+      classDeclaration.addMethod({
+        name: name  ,
+        scope: Scope.Public,
+        parameters: methodParameters,
+        returnType: returnType.getName(),
+        statements: [
+          `return [
+            "${keyName}",
+            { ${(methodParameters ?? []).map(p => `${p.name}: ${p.name}`).join(", ")} }
+          ];`
+        ]
+      });
+    }
+
+}
+
+interface ParameterData {
+    name: string;
+    type: string;
 }
