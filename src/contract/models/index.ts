@@ -29,6 +29,7 @@ export interface AssetInfoResponseModel {
     assetId: number;
     galleryId: number;
     groupId?: number | null;
+    groupPosition?: number | null;
     fileName: string;
     creationTime: Date;
     importTime: Date;
@@ -50,6 +51,24 @@ export interface CreateGroupRequestModel {
 
 export interface CreateGroupResponseModel {
     groupId: number;
+}
+
+export interface DisplayGroupItemResponseModel {
+    type: DisplayItemType;
+    id: number;
+    creationTime: Date;
+    importTime: Date;
+    title?: string | null;
+    count?: number | null;
+    inGroupPosition?: number | null;
+}
+
+export interface DisplayGroupItemResponseModelPagedData {
+    items: Array<DisplayGroupItemResponseModel>;
+    skip: number;
+    take: number;
+    totalCount: number;
+    pagesCount: number;
 }
 
 export interface DisplayItemResponseModel {

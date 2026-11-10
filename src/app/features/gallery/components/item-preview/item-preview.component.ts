@@ -32,7 +32,7 @@ export class ItemPreview {
   private readonly assetMetaData : Signal<RequestState<Blob>> = toRequestState(
     toObservable(this.item),
     item => {
-      const itemType = this.item().type;
+      const itemType = item.type;
       switch (itemType) {
         case ItemType.Asset:
           return this.mediaService.assetPreviewHead(item.id)
@@ -43,7 +43,7 @@ export class ItemPreview {
   )
 
   private readonly src = computed(() => 
-    this.item().type == ItemType.Asset 
+    this.item().type === ItemType.Asset 
     ? this.apiUrls.getAssetPreviewUrl(this.item().id)
     : this.apiUrls.getGroupPreviewUrl(this.item().id)
   );

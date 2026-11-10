@@ -1,17 +1,18 @@
-@let state = itemsState();
+@let state = itemsQuery;
 
-@if (state.loading) {
+@if (state.isLoading()) {
   LOADING
-} @else if (state.error) {
+} @else if (state.isError()) {
   <error-message 
-    [status]="state.error.status" 
-    [title]="state.error.title" 
-    [details]="state.error.details" 
+    [error]="state.error()"
   />
-} @else if (state.data; as data) {
-  <items-grid [items]="data.items | toGridItem" [itemTemplate]="assetPreview">
+} @else if (state.data(); as data) {
+  <items-grid [items]="data.items" [itemTemplate]="assetPreview">
     <ng-template #assetPreview let-item>
-      <item-preview [item]="item" />
+      <item-preview-group 
+        [item]="item"
+        (coverFlagChange)="onCoverFlagChange(item.id, $event)";
+      />
     </ng-template>  
   </items-grid>
 

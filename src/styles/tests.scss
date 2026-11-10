@@ -1,0 +1,98 @@
+// ==========================================================================
+// Segmented Switch
+// ==========================================================================
+
+.button-switch {
+  display: inline-flex;
+  align-items: stretch;
+
+  min-height: 40px;
+  padding: 3px;
+
+  border: 1px solid $color-border;
+  border-radius: 999px;
+
+  background: transparent;
+
+  box-shadow:
+    0 0 8px $glow-subtle,
+    inset 0 0 8px rgba($color-purple, 0.04);
+
+  overflow: hidden;
+
+  // Individual options
+  &-option {
+    position: relative;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    flex: 1;
+    min-width: 80px;
+    padding: 7px 18px;
+
+    border: none;
+    border-radius: 999px;
+
+    background: transparent;
+    color: $color-text-primary;
+
+    font: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+
+    cursor: pointer;
+
+    transition:
+      color $transition-fast,
+      background-color $transition-fast,
+      box-shadow $transition-fast,
+      text-shadow $transition-fast;
+
+    &:hover:not(.active) {
+      background: $surface-hover;
+      color: $color-text-primary-hover;
+    }
+
+    &.active {
+      color: $color-text-primary-hover;
+
+      background: rgba($color-purple, 0.3);
+
+      text-shadow: 0 0 8px $text-glow;
+
+      box-shadow:
+        0 0 8px $glow-subtle,
+        inset 0 0 8px rgba($color-purple, 0.12);
+    }
+
+    &:focus-visible {
+      outline: 2px solid $color-focus;
+      outline-offset: -3px;
+    }
+
+    &:disabled {
+      opacity: 0.45;
+      cursor: not-allowed;
+    }
+  }
+
+  // Middle separator
+  &-separator {
+    align-self: center;
+
+    width: 1px;
+    min-height: 20px;
+
+    background: $color-border;
+    opacity: 0.7;
+  }
+
+  // Disabled switch
+  &:has(.button-switch-option:disabled) {
+    opacity: 0.6;
+  }
+}

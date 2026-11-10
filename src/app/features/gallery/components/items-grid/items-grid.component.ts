@@ -2,8 +2,8 @@ import { Component, input, TemplateRef } from '@angular/core';
 import { NgTemplateOutlet } from '@angular/common';
 
 export interface GridItem {
-  type: ItemType;
   id: number;
+  type: ItemType;
   title?: string | null;
   count?: number | null;
 }

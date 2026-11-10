@@ -1,0 +1,34 @@
+@let editModeOn = viewStateService.getState().editModeOn;
+
+<item-preview [item]="item()"></item-preview>
+
+@if (editModeOn) {
+  <div class="editing-elements">
+    <input
+      type="number"
+      aria-label="Position"
+      (change)="onPositionValueChange($event)"
+    />
+
+    <label>
+      <input readOnly
+        type="checkbox"
+        [checked]="item().isCoverAsset"
+        (click)="onCoverFlagChange($event)"
+      />
+      Cover
+    </label>
+    
+  </div>
+
+  <div class="position-display">
+      Normalized position: {{item().position}}
+  </div>
+
+  @if (item().isAssetAddRemoveAllowed) {
+    <div class="button-container">
+      <button class="button button-control button-fit">REMOVE</button>
+    </div>
+  }
+}
+

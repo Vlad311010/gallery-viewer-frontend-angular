@@ -1,11 +1,13 @@
+@let error = apiErrorDetails();
+
 <main class="error-page-content">
   <div class="error-page-status">
-    Error code: {{status()}}
+    Error code: {{error.status}}
   </div>
 
-  <h1>{{title()}}</h1>
+  <h1>{{error.title}}</h1>
 
-  @if (details(); as details) {
+  @if (error.details; as details) {
     <p class="error-page-detail">
       {{details}}
     </p>

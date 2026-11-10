@@ -12,7 +12,7 @@ import { inject, Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { BASE_PATH_DEFAULT, CLIENT_CONTEXT_TOKEN_DEFAULT } from "../tokens";
 import { HttpParamsBuilder } from "../utils/http-params-builder";
-import { RequestOptions, DisplayItemResponseModelPagedData } from "../models";
+import { RequestOptions, DisplayItemResponseModelPagedData, DisplayGroupItemResponseModelPagedData } from "../models";
 
 @Injectable({ providedIn: "root" })
 export class AssetBrowserService {
@@ -63,9 +63,9 @@ export class AssetBrowserService {
         });
     }
 
-    listGroup(groupId: number, skip?: number, take?: number, observe?: 'body', options?: RequestOptions<'json'>): Observable<DisplayItemResponseModelPagedData>;
-    listGroup(groupId: number, skip?: number, take?: number, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<DisplayItemResponseModelPagedData>>;
-    listGroup(groupId: number, skip?: number, take?: number, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<DisplayItemResponseModelPagedData>>;
+    listGroup(groupId: number, skip?: number, take?: number, observe?: 'body', options?: RequestOptions<'json'>): Observable<DisplayGroupItemResponseModelPagedData>;
+    listGroup(groupId: number, skip?: number, take?: number, observe?: 'response', options?: RequestOptions<'json'>): Observable<HttpResponse<DisplayGroupItemResponseModelPagedData>>;
+    listGroup(groupId: number, skip?: number, take?: number, observe?: 'events', options?: RequestOptions<'json'>): Observable<HttpEvent<DisplayGroupItemResponseModelPagedData>>;
     listGroup(groupId: number, skip?: number, take?: number, observe?: 'body' | 'events' | 'response', options?: RequestOptions<'arraybuffer' | 'blob' | 'json' | 'text'>): Observable<any> {
         const url = `${this.basePath}/api/AssetBrowser/group/${groupId}`;
 
