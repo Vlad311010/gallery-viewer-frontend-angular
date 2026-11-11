@@ -1,16 +1,16 @@
 <figure class="gallery-item-image">
-  @let metadata = assetMetaData();
-  @let editModeOn = this.galleryState.getState().editModeOn;
+  @let query = assetMetadataQuery;
+  @let editModeOn = this.viewState.getState().editModeOn;
 
   <item-link
     class="gallery-item-preview"
-    [style.display]="isLoadingPreview || metadata.loading ? 'none' : null"
+    [style.display]="isLoadingPreview || query.isLoading() ? 'none' : null"
     [itemId]="item().id"
     [isGroup]="item().type | isGroup"
     [editModeOn]="editModeOn"
   >
-    @if (!metadata.loading) {
-      @if (metadata.data | isVideo) {
+    @if (!query.isLoading()) {
+      @if (query.data() | isVideo) {
         <preview-media-video
           [itemId]="item().id"
           [showEditLabel]="editModeOn"

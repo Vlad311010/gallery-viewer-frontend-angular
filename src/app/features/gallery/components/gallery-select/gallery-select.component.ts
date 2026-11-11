@@ -1,9 +1,10 @@
-import { Component, inject, Signal } from '@angular/core';
-import { RequestState, toRequestStateOnceWithTransoformation } from '@app/shared/utils/request-state';
-import { ApiUrlsService, GalleryService } from '@contract/index';
+import { Component, inject } from '@angular/core';
+import { ApiUrlsService, GalleryResponseModel, GalleryService } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { NgTemplateOutlet, UpperCasePipe } from '@angular/common';
 import { RouterLink } from '@angular/router';
+import { lastValueFrom } from 'rxjs';
+import { injectQuery } from '@tanstack/angular-query-experimental';
 
 interface GalleryThumbnail {
   id: number;
@@ -19,18 +20,22 @@ interface GalleryThumbnail {
 })
 export class GallerySelect {
   galleryService = inject(GalleryService);
-  apiUrls = inject(ApiUrlsService);
+  urlsService = inject(ApiUrlsService);
 
-  private readonly galleriesState : Signal<RequestState<GalleryThumbnail[] | undefined>> = toRequestStateOnceWithTransoformation(
-    this.galleryService.galleries(),
-    (response) => (
-      response?.map<GalleryThumbnail>(x => ({
+  private readonly galleriesQuery = injectQuery(() => ({
+    queryKey: [
+      GalleryService.name,
+      ...this.urlsService.getGalleriesQueryKey(),
+    ],
+    queryFn: () => 
+      lastValueFrom(
+        this.galleryService.galleries()
+      ),
+    select: (response: GalleryResponseModel[])  => 
+      response.map<GalleryThumbnail>(x => ({
         id: x.id,
         name: x.name,
-        thumbnailUrl: x.coverAssetId ? this.apiUrls.getAssetUrl(x.coverAssetId) : undefined,
+        thumbnailUrl: x.coverAssetId ? this.urlsService.getAssetUrl(x.coverAssetId) : undefined,
       }))
-    ),
-    { errorMessage: "Unable to load galleries"}
-  )
- 
+  }))
 }

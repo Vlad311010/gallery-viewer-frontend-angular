@@ -1,12 +1,12 @@
-@let state = itemsState();
+@let query = itemsQuery;
 
-@if (state.loading) {
+@if (query.isLoading()) {
   LOADING
-} @else if (state.error) {
+} @else if (query.isError()) {
   <error-message 
-    
+    [error]="query.error()"
   />
-} @else if (state.data; as data) {
+} @else if (query.data(); as data) {
   <navigation-bar></navigation-bar>
   <items-grid [items]="data.items | toGridItem" [itemTemplate]="assetPreview">
     <ng-template #assetPreview let-item>

@@ -1,14 +1,14 @@
-@let state = galleriesState();
+@let query = galleriesQuery;
 
-@if (state.loading) {
+@if (query.isLoading()) {
   LOADING
-} @else if (state.error) {
+} @else if (query.isError()) {
   <error-message 
-    
+    [error]="query.error()"
   />
-} @else if (state.data; as data) {
+} @else if (query.data(); as data) {
   <div class="galleries-grid">
-    @for (galleryThumbnail of state.data; track galleryThumbnail.id) {
+    @for (galleryThumbnail of data; track galleryThumbnail.id) {
       <ng-container 
         [ngTemplateOutlet]="gallerySelector"
         [ngTemplateOutletContext]="{ gallery: galleryThumbnail}"

@@ -13,8 +13,7 @@ interface ApiError {
   styleUrl: './error-message.component.scss',
 })
 export class DisplayError {
-  // error = input.required<Error>();
-  error = input<Error>();
+  error = input.required<Error>();
   
   apiErrorDetails = computed(() => this.getErrorMessage(this.error()));
 

@@ -1,12 +1,8 @@
-import { Component, input, inject, signal, effect, output, computed, Signal } from '@angular/core';
+import { Component, input, inject, output } from '@angular/core';
 import { GridItem, ItemType } from '../../items-grid/items-grid.component';
 import { ItemPreview } from '../item-preview.component';
 import { ViewStateService } from '@app/shared/services/view-state.service';
-import { ViewState } from '@shared/services/view-state.service';
 import { AssetsService } from '@contract/index';
-import { toRequestState } from '@app/shared/utils/request-state';
-import { toObservable } from '@angular/core/rxjs-interop';
-import { single } from 'rxjs';
 
 
 export interface GroupGridItem extends GridItem  {
