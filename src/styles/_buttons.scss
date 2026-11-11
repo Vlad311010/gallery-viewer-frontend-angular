@@ -15,7 +15,7 @@ $color-border: #7347d9;
 $color-border-hover: #8c27ff;
 $color-focus: #d8b4fe;
 
-$edit-element-background-color:rgba(20, 18, 24, 0.65);
+$color-control-background: map.get(vars.$colors, 'controll-dark');
 
 // Surfaces
 $glow-hover: color.change(map.get(vars.$colors, 'light-purple'), $alpha: 0.07);
@@ -208,7 +208,7 @@ $transition-fast: 160ms ease;
     border: 2px solid map.get(vars.$colors, 'default-purple');
     border-radius: 3px;
 
-    background: $edit-element-background-color;
+    background: $color-control-background;
     color: #eee7f8;
 
     font-size: 11px;

@@ -30,4 +30,16 @@ body {
   background-attachment: fixed;
   background-repeat: no-repeat;
   background-size: cover;
+  
+  letter-spacing: 0.18px;
+}
+
+h1,
+h2 {
+  letter-spacing: -0.24px;
+  line-height: 28.32px;
+}
+
+a {
+  text-decoration: none;
 }

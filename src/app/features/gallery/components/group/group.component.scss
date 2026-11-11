@@ -1,0 +1,43 @@
+@use 'sass:map';
+@use "variables" as vars;
+@use "buttons";
+
+$controlls-background: map.get(vars.$colors, 'background-dark');
+$controlls-border: #342347;
+$controlls-border-width: 2px;
+
+:host {
+  min-width: 0;
+  min-height: 100vh;
+
+  display: flex;
+  flex-direction: column;
+}
+
+.controlls-bar {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  align-items: center;
+
+  margin-left: -2px;
+  padding: 1rem 1rem;  
+  
+  background-color: $controlls-background;
+  border-bottom: $controlls-border-width solid $controlls-border;
+
+  &-controll-elements {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &-title {
+    justify-self: start;
+    margin: 0;
+    color: map.get(vars.$text, 'text-light');
+    font-family: map.get(vars.$fonts, 'sans');
+    font-weight: 500;
+    font-size: 24px;
+    text-align: center;
+  }
+}

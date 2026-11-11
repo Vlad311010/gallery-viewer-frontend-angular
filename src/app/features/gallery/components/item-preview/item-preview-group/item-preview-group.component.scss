@@ -1,12 +1,10 @@
-@use 'variables.scss';
-@use 'buttons.scss';
+@use 'sass:map';
+@use 'variables' as vars;
+@use 'buttons';
 
-$asset-border: #7000b6;
-$group-border: rgb(2, 150, 2);
-$asset-video-outline: #7000b6;
-$asset-border-edit-mode: #99abb0;
-$edit-element-background-color: rgba(20, 18, 24, 0.65);
-$check-box-color: rgb(144, 17, 144);
+$asset-border: map.get(vars.$colors, 'default-purple');
+$edit-element-background-color: map.get(vars.$colors, 'controll-dark');
+$check-box-color: map.get(vars.$colors, 'checkbox-enabled');
 
 :host {
   display: flex;

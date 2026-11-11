@@ -1,4 +1,21 @@
 @let state = itemsQuery;
+@let editModeOn = viewState.getState().editModeOn;
+
+<section class="controlls-bar">
+  <span class="controlls-bar-controll-elements">
+    <a [href]="returnUrl()" class="button button-subtle button-fit" [class.disabled]="!returnUrl()">↩ Back</a>
+    
+    <h2 class="controlls-bar-title">{{groupDetailsQuery.data()?.title}}</h2>
+  </span>
+  
+  
+  <span class="controlls-bar-controll-elements" [style.visibility]="editModeOn ? 'visible' : 'hidden'">
+    <button class="button button-subtle button-sm" >
+      SUBMIT POSITION EDITS
+    </button>
+  </span>
+</section>
+
 
 @if (state.isLoading()) {
   LOADING

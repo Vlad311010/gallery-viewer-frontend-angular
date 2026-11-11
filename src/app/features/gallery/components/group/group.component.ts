@@ -10,6 +10,7 @@ import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.direct
 import { GroupsService } from '@contract/services/groups.service';
 import { lastValueFrom } from 'rxjs';
 import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
+import { ViewStateService } from '@app/shared/services/view-state.service';
 
 
 interface PositionData {
@@ -20,12 +21,15 @@ interface PositionData {
 @Component({
   selector: 'group',
   templateUrl: './group.component.html',
+  styleUrl: './group.component.scss',
   imports: [DisplayError, ItemsGrid, ItemPreviewGroup, Paginator],
   hostDirectives: [PageScrollBinds]
 })
 export class Group extends PagedDirective {
   id = input.required<number, string>({ transform: (value) => numberAttribute(value, 1) });
+  returnUrl = input<string>();
 
+  private readonly viewState = inject(ViewStateService)
   private readonly assetBrowserService = inject(AssetBrowserService);
   private readonly groupsService = inject(GroupsService);
   private readonly urlsService = inject(ApiUrlsService)
