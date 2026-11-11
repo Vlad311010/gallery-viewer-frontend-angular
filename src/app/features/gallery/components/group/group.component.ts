@@ -11,6 +11,12 @@ import { GroupsService } from '@contract/services/groups.service';
 import { lastValueFrom } from 'rxjs';
 import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 
+
+interface PositionData {
+  id: number;
+  position: number;
+}
+
 @Component({
   selector: 'group',
   templateUrl: './group.component.html',
@@ -30,23 +36,10 @@ export class Group extends PagedDirective {
   override maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
   
   itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
+
+  positions : PositionData[] = [];
+  normalizedPositions : PositionData[] = [];
   
-  constructor() {
-    super();
-
-    effect(() => {
-      const updatedAt = this.itemsQuery.dataUpdatedAt();
-
-      if (updatedAt != 0) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'instant'
-        });
-      }
-    });
-  }
-
   readonly itemsQuery = injectQuery(() => ({
     queryKey: [
       AssetBrowserService.name, 
@@ -95,18 +88,38 @@ export class Group extends PagedDirective {
       })
     }
   }));
-
+  
   readonly displayItems = computed(() => {
     const pagedItems = this.itemsQuery.data();
     const groupDetails = this.groupDetailsQuery.data();
 
     if (!pagedItems || !groupDetails) return null;
 
+    this.positions = pagedItems.items.map(x => ({id:x.id, position: x.inGroupPosition ?? 0}))
+    this.normalizedPositions = this.positions;
+
     return {
       ...pagedItems,
       items: pagedItems.items.map(x => this.toAssetDetails(x, groupDetails))
     }
   })
+
+  constructor() {
+    super();
+
+    effect(() => {
+      const updatedAt = this.itemsQuery.dataUpdatedAt();
+
+      if (updatedAt != 0) {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant'
+        });
+      }
+    });
+  }
+
 
   private toAssetDetails(asset: DisplayGroupItemResponseModel, groupDetails: AssetGroupResponseModel) : GroupGridItem{ 
     return {
@@ -121,17 +134,22 @@ export class Group extends PagedDirective {
     }
   }
 
-  onCoverFlagChange(assetId: number, value: boolean) {
+  private onCoverFlagChange(assetId: number, value: boolean) {
     const body : SetGroupCoverRequestModel = { assetId: assetId };
     this.setCoverMutation.mutate(body);
   }
 
-  onPositionValueChange(event: Event) {
-    const input = (event.target as HTMLInputElement)
-    console.log(input.value);
+  private onPositionValueChange(id: number, value: number) {    
+    console.log("parent change");
+    this.positions = this.positions.map(x => x.id === id ? {...x, position: value}  : x);
+    this.normalizedPositions = this.normalizeAssetPositions(this.positions);
   }
-  
+
+  private normalizeAssetPositions(positions: PositionData[]) : PositionData[] {
+    return positions.sort((a, b) => a.position - b.position).map((x, idx) => ({ id: x.id, position: idx }));
+  }
 }
+
 
 
 

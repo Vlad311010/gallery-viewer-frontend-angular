@@ -50,7 +50,7 @@ export class ViewStateService {
   }
 
   private readonly switchModeBind = new Keybind(
-    [INPUTS.SWITCH_VIEW_MODE, INPUTS.SCROLL_UP_ARROWS],
+    [INPUTS.SWITCH_VIEW_MODE],
     () => this.setState(
       {
         ...this.state(),

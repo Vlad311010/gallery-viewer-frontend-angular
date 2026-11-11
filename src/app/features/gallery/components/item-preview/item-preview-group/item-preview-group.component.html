@@ -8,6 +8,7 @@
       type="number"
       aria-label="Position"
       (change)="onPositionValueChange($event)"
+      [value]="position()"
     />
 
     <label>
@@ -16,6 +17,7 @@
         [disabled]="isCoverAsset()"
         [checked]="isCoverAsset()"
         (click)="onCoverFlagChange($event)"
+        tabindex="-1"
       />
       Cover
     </label>
@@ -23,12 +25,12 @@
   </div>
 
   <div class="position-display">
-      Normalized position: {{position()}}
+      Normalized position: {{normalizedPosition()}}
   </div>
 
   @if (isAssetAddRemoveAllowed()) {
     <div class="button-container">
-      <button class="button button-control button-fit">REMOVE</button>
+      <button tabindex="-1" class="button button-control button-fit">REMOVE</button>
     </div>
   }
 }
