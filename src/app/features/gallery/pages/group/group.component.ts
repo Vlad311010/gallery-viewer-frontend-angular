@@ -2,16 +2,14 @@ import { Component, computed, effect, inject, input, numberAttribute, signal } f
 import { CONSTANTS } from '@app/constants/gallery-constants';
 import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, SetGroupCoverRequestModel } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
-import { ItemsGrid, ItemType } from '../items-grid/items-grid.component';
-import { GroupGridItem, ItemPreviewGroup } from '../item-preview/item-preview-group/item-preview-group.component';
-import { Paginator } from '../paginator/paginator.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
 import { GroupsService } from '@contract/services/groups.service';
 import { lastValueFrom } from 'rxjs';
 import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { ViewStateService } from '@app/shared/services/view-state.service';
-
+import { ItemPreviewGroup, ItemsGrid, ItemType, GroupGridItem } from '@app/features/gallery/components';
+import { Paginator } from '@app/shared/components';
 
 interface PositionData {
   id: number;

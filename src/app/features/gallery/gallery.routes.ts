@@ -1,7 +1,5 @@
 import { Routes } from '@angular/router';
-import { GalleryList } from './components/gallery-list/gallery.component';
-import { Group } from './components/group/group.component';
-import { GallerySelect } from './components/gallery-select/gallery-select.component';
+import { Gallery, GallerySelect, Group } from './pages'
 
 export const GALLERY_ROUTES: Routes = [
   {
@@ -10,7 +8,7 @@ export const GALLERY_ROUTES: Routes = [
   },
   {
     path: 'gallery/:galleryName',
-    component: GalleryList,
+    component: Gallery,
   },
   {
     path: 'gallery/:galleryName/group/:id',

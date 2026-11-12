@@ -1,17 +1,15 @@
 import { Component, input, inject, signal, computed, effect } from '@angular/core';
-import { ItemPreview } from "../item-preview/item-preview.component";
-import { ItemsGrid } from '../items-grid/items-grid.component';
 import { AssetBrowserService } from '@contract/services/assetBrowser.service';
 import { CONSTANTS } from '@app/constants/gallery-constants';
 import { ApiUrlsService } from '@contract/index';
 import { ToGridItem } from '@app/shared/pipes/to-grid-item';
-import { Paginator } from '../paginator/paginator.component';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
-import { NavigationBar } from '../navigation-bar/navigation-bar.component';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
+import { Paginator } from '@app/shared/components';
+import { ItemPreview, ItemsGrid, NavigationBar } from '@app/features/gallery/components';
 
 
 @Component({
@@ -21,7 +19,7 @@ import { lastValueFrom } from 'rxjs';
   imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError, NavigationBar],
   hostDirectives: [PageScrollBinds],
 })
-export class GalleryList extends PagedDirective {
+export class Gallery extends PagedDirective {
   galleryName = input.required<string>();
   
   assetBrowserService = inject(AssetBrowserService);
