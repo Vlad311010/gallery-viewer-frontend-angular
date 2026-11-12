@@ -1,4 +1,4 @@
-@for (item of items(); track $index) {
+@for (item of items(); track `${item.id}|${item.type}`) {
   <ng-container
     [ngTemplateOutlet]="itemTemplate()"
     [ngTemplateOutletContext]="{ $implicit: item }"

@@ -1,15 +1,16 @@
-<figure class="gallery-item-image">
-  @let query = assetMetadataQuery;
-  @let editModeOn = this.viewState.getState().editModeOn;
+@let query = assetMetadataQuery;
+@let editModeOn = this.viewState.getState().editModeOn;
+@let isLoading = isLoadingPreview() || query.isLoading();
 
+<figure class="gallery-item-image">
   <item-link
     class="gallery-item-preview"
-    [style.display]="isLoadingPreview || query.isLoading() ? 'none' : null"
+    [style.pointerEvents]="isLoading ? 'none' : 'auto'"
     [itemId]="item().id"
     [isGroup]="item().type | isGroup"
     [editModeOn]="editModeOn"
   >
-    @if (!query.isLoading()) {
+    <loader [size]="36" color="white" [boundWidth]="150" [boundHeight]="300" [showLoader]="isLoading">
       @if (query.data() | isVideo) {
         <preview-media-video
           [itemId]="item().id"
@@ -27,10 +28,6 @@
           (loadingChange)="onPreviewLoadingChange($event)"
         />
       }
-    }
+    </loader>
   </item-link>
-
-  @if (isLoadingPreview) {
-    <loader [size]="36" color="white" [boundHeight]="140"/>
-  }
 </figure>

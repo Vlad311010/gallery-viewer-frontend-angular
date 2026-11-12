@@ -1,11 +1,19 @@
-<div class="loader" 
-  [style.color]="color()"
-  [style.width.px]="boundWidth()"
-  [style.height.px]="boundHeight()"
->
-  <div class="loader-spinner"
-    [style.border-width.px]="thickness()" 
-    [style.width.px]="size()"
-    [style.height.px]="size()">
+@let showContent = !showLoader() && minimalDiplayTimeEnded();
+
+@if(!showContent) {
+  <div class="loader" 
+    [style.color]="color()"
+    [style.width.px]="boundWidth()"
+    [style.height.px]="boundHeight()"
+  >
+    <div class="loader-spinner"
+      [style.border-width.px]="thickness()" 
+      [style.width.px]="size()"
+      [style.height.px]="size()">
+    </div>
   </div>
-</div>
+}
+
+<span [style.visibility]="showContent ? 'visible' : 'hidden'">
+  <ng-content  />
+</span>

@@ -1,4 +1,4 @@
-import { Component, computed, inject, input } from '@angular/core';
+import { Component, computed, effect, inject, input, signal } from '@angular/core';
 import { ApiUrlsService } from '@contract/urls';
 import { ItemLink } from '../item-link/item-link.component';
 import { GridItem, ItemType } from '../items-grid/items-grid.component';
@@ -25,13 +25,15 @@ export class ItemPreview {
   private readonly mediaService = inject(MediaService);
   private readonly viewState = inject(ViewStateService);
 
-  
-
-  private isLoadingPreview = true;
+  private isLoadingPreview = signal(true);
 
   private readonly assetMetadataQuery = injectQuery(() => ({
     queryKey: [
       MediaService.name,
+      {
+        id: this.item().id,
+        type: this.item().type
+      }
     ],
     queryFn: () => {
       const item = this.item();
@@ -51,7 +53,7 @@ export class ItemPreview {
   );
 
   onPreviewLoadingChange(value: boolean) {
-    this.isLoadingPreview = value;
+    this.isLoadingPreview.set(value);
   }
 }
 
