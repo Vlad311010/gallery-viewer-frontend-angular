@@ -1,0 +1,11 @@
+<video #video
+  [src]="assetUrl()"
+  controls
+  [class.controlls-disabled]="isInFullscreenMode()"
+  (loadedmetadata)="onLoad( $event)"
+  [width]="contentSize().width"
+  [height]="contentSize().height"
+  autoPlay
+  loop
+>
+</video>

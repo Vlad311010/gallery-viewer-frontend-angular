@@ -1,12 +1,12 @@
 export class Keybind  {
   keycodes: string[];
-  callback: () => void;
+  callback: (event: KeyboardEvent) => void;
   allowInEditableContent: boolean;
   ctrlKey : boolean;
 
   constructor (
     keycodes: string[],
-    callback: () => void,
+    callback: (event: KeyboardEvent) => void,
     allowInEditableContent: boolean = false,
     ctrlKey: boolean = false
   ) {
@@ -36,6 +36,6 @@ export function handleInput(event: KeyboardEvent, keybinds : Keybind[]) {
     }
 
     event.preventDefault();
-    bind.callback();
+    bind.callback(event);
   }
 }

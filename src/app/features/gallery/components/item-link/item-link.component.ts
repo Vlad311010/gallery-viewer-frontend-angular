@@ -18,10 +18,10 @@ export class ItemLink {
 
   private readonly directTo = computed(() =>
     this.isGroup() 
-      ? `group/${this.itemId()}`
+      ? `/gallery/${this.galleryName}/group/${this.itemId()}`
       : this.editModeOn() 
-        ? `asset/${this.itemId()}`
-        : `asset/${this.itemId()}/view`
+        ? `/gallery/${this.galleryName}/asset/${this.itemId()}`
+        : `/gallery/${this.galleryName}/asset/${this.itemId()}/view`
   )
 
 }

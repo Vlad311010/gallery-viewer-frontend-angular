@@ -1,0 +1,14 @@
+@let query = assetMimeTypeQuery;
+
+@if (query.isLoading()) 
+{
+}
+@else if (query.isError()) {
+  <error-message [error]="query.error()" />
+}
+@else if (query.data() | isVideo ) {
+  <asset-view-video [id]="assetId()" />
+}
+@else {
+  <asset-view-image [id]="assetId()" />
+}

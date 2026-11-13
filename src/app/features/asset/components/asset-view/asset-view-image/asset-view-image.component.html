@@ -1,0 +1,9 @@
+<img 
+  #image  
+  [src]="assetUrl()"
+  (load)="onLoad( $event)"
+  [width]="contentSize().width"
+  [height]="contentSize().height"
+  (click)="onZoom($event)"
+  [style.cursor]="zoomedIn() ? 'zoom-out' : 'zoom-in'"
+/>

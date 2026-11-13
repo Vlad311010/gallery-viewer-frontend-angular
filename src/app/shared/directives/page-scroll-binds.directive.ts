@@ -25,8 +25,8 @@ export class PageScrollBinds {
     [INPUTS.SCROLL_DOWN_WASD, INPUTS.SCROLL_DOWN_ARROWS],
     () => this.ScrollPage(1),
   ) 
+  
   private onKeyDown(event: KeyboardEvent): void {
-    
     handleInput(event, [this.prevPageBind, this.nextPageBind]);
   }
 }

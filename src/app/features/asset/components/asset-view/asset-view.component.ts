@@ -1,9 +1,33 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject, input, numberAttribute } from '@angular/core';
+import { AssetViewImage } from './asset-view-image/asset-view-image.component';
+import { AssetViewVideo } from './asset-view-video/asset-view-video.component';
+import { injectQuery } from '@tanstack/angular-query-experimental';
+import { ApiUrlsService, MediaService } from '@contract/index';
+import { lastValueFrom } from 'rxjs';
+import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
+import { IsVideoPipe } from '@shared/pipes/is-video';
 
 @Component({
   selector: 'asset-view',
-  template: '<h2>asset view</h2>',
+  templateUrl: './asset-view.component.html',
+  imports: [AssetViewImage, DisplayError, IsVideoPipe, AssetViewVideo],
 })
 export class AssetView {
+  assetId = input.required<number, string>({ transform: (value) => numberAttribute(value) });
+
+  private readonly urlsService = inject(ApiUrlsService);
+  private readonly mediaService = inject(MediaService);
+  
+  protected assetUrl = computed(() => this.urlsService.getAssetUrl(this.assetId()));
+
+  private readonly assetMimeTypeQuery = injectQuery(() => ({
+    queryKey: [
+      MediaService.name,
+      this.urlsService.getAssetMimeTypeQueryKey(this.assetId())
+    ],
+    queryFn: () => {
+      return lastValueFrom(this.mediaService.assetMimeType(this.assetId()));
+    }
+  }))
 }
 

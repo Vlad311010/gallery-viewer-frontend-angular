@@ -1,0 +1,28 @@
+:host {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 100dvh;
+  background: rgb(14, 14, 14);
+}
+
+img,
+video {
+  display: block;
+  margin: auto;
+  user-select: none;
+}
+
+.controlls-disabled {
+  &::-webkit-media-controls {
+    display: none;
+  }
+}
+
+.asset-view {
+  video {
+    &:focus {
+      outline: none;
+    }
+  }
+}
