@@ -1,4 +1,4 @@
-export const INPUTS = {
+const INPUTS = {
   // scroll 
   SCROLL_UP_WASD: 'KeyW',
   SCROLL_DOWN_WASD: 'KeyS',
@@ -8,7 +8,7 @@ export const INPUTS = {
   // search
   SUGGESTION_NAVIGATION_UP: 'ArrowUp',
   SUGGESTION_NAVIGATION_DOWN: 'ArrowDown',
-  SUGGESTION_NAVIGATION_SUBMIT: 'Enter',
+  SUGGESTION_NAVIGATION_APPLY: 'Enter',
   SUGGESTION_NAVIGATION_CANCEL: 'Escape',
 
   // navigation
@@ -25,3 +25,5 @@ export const INPUTS = {
   // Utils (ctrl + ...)
   COPY_NAME: 'KeyC',
 } as const;
+
+export default INPUTS;

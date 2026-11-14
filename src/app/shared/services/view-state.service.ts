@@ -1,8 +1,8 @@
-import { DestroyRef, inject, Injectable, Renderer2, RendererFactory2, signal } from '@angular/core';
+import { DestroyRef, inject, Injectable, signal } from '@angular/core';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { fromEvent, timestamp } from 'rxjs';
+import { fromEvent } from 'rxjs';
 import { handleInput, Keybind } from '../utils/input-handler';
-import { INPUTS } from '@app/constants/input-constants';
+import INPUTS from '@app/constants/input-constants';
 
 export interface ViewState {
   editModeOn: boolean;

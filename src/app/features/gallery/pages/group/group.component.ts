@@ -1,5 +1,5 @@
 import { Component, computed, effect, inject, input, numberAttribute, signal } from '@angular/core';
-import { CONSTANTS } from '@app/constants/gallery-constants';
+import CONSTANTS from '@app/constants/gallery-constants';
 import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, SetGroupCoverRequestModel } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';

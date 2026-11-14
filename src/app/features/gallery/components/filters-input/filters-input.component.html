@@ -1,0 +1,42 @@
+@let query = tagSearchQuery;
+
+<input #tagSearchInput
+  placeholder="Search..."
+
+  class="tag-search"
+  id = "tag-search-input"
+
+  autoComplete="off"
+  type="search"
+  spellCheck="false"
+
+  [value]="inputValue()"
+  (input)="onInputChange($event)"
+  (selectionchange)="onSelect($event)"
+  (focus)="onInputFocus()"
+  (blur)="onInputBlur($event)"
+  (keydown)="onKeyDownInput($event)"
+/>
+
+@if (showSuggestions()) {
+  <ul class="tag-search-suggestions" #tagSearchSuggestions>
+  @for (suggestion of query.data(); track suggestion.id) {
+      <li
+        class="tag-search-suggestion tag-type"
+        [class]="suggestion.category | toCategoryClass"
+        [class.tag-search-suggestion-active]="$index === selectedSuggestionIndex()"
+        (mousedown)="$event.preventDefault()"
+        (mouseover)="onMouseOverSuggestion($index)"
+        (click)="onMouseClickSuggestion($event)"
+      >
+        <span class="tag-search-suggestion-name">
+          {{suggestion.name}} {{suggestion.canonicalName ? `[${suggestion.canonicalName}]` : ""}}
+        </span>
+
+        <span class="tag-search-suggestion-occurrences">
+          {{suggestion.occurrences}}
+        </span>
+      </li>
+    }
+  </ul>
+}

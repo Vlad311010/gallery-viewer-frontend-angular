@@ -1,7 +1,7 @@
 import { NgTemplateOutlet } from "@angular/common";
 import { Component, computed, inject, input } from "@angular/core";
 import { Router, RouterLink } from "@angular/router";
-import { INPUTS } from "@app/constants/input-constants";
+import INPUTS from "@app/constants/input-constants";
 import { handleInput, Keybind } from "@app/shared/utils/input-handler";
 
 interface PaginatorProps {

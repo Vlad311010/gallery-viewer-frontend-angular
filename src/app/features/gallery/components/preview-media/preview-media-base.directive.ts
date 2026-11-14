@@ -1,5 +1,5 @@
 import { computed, Directive, input, output, signal, effect } from '@angular/core';
-import { CONSTANTS } from "@app/constants/static-files-constants";
+import CONSTANTS from "@app/constants/static-files-constants";
 
 @Directive()
 export abstract class PreviewMediaBase {

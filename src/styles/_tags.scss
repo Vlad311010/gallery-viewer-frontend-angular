@@ -1,0 +1,14 @@
+$tag-type-colors: (
+  author: rgb(254, 84, 72),
+  character: rgb(44, 221, 144),
+  source: rgb(189, 206, 0),
+  general: rgb(225, 225, 225)
+);
+
+.tag-type {
+  @each $type, $color in $tag-type-colors {
+    &.#{$type}-tag {
+      color: $color;
+    }
+  }
+}

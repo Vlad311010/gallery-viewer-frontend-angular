@@ -1,8 +1,8 @@
 import { Component, input, inject, signal, computed, effect } from '@angular/core';
 import { AssetBrowserService } from '@contract/services/assetBrowser.service';
-import { CONSTANTS } from '@app/constants/gallery-constants';
+import CONSTANTS from '@app/constants/gallery-constants';
 import { ApiUrlsService } from '@contract/index';
-import { ToGridItem } from '@app/shared/pipes/to-grid-item';
+import { ToGridItemPipe } from '@app/shared/pipes/to-grid-item';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
@@ -16,7 +16,7 @@ import { ItemPreview, ItemsGrid, NavigationBar } from '@app/features/gallery/com
   selector: 'app-gallery-list',
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
-  imports: [ItemPreview, ItemsGrid, ToGridItem, Paginator, DisplayError, NavigationBar],
+  imports: [ItemPreview, ItemsGrid, ToGridItemPipe, Paginator, DisplayError, NavigationBar],
   hostDirectives: [PageScrollBinds],
 })
 export class Gallery extends PagedDirective {

@@ -1,4 +1,4 @@
-import { INPUTS } from "@app/constants/input-constants";
+import INPUTS from "@app/constants/input-constants";
 import { handleInput, Keybind } from "../utils/input-handler";
 import { Directive } from "@angular/core";
 

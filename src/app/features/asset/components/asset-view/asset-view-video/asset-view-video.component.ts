@@ -1,6 +1,6 @@
 import { Component, ElementRef, viewChild } from '@angular/core';
 import { AssetViewBase } from '../asset-view.directive';
-import { INPUTS } from '@app/constants/input-constants';
+import INPUTS from '@app/constants/input-constants';
 import { handleInput, Keybind } from '@app/shared/utils/input-handler';
 
 @Component({
