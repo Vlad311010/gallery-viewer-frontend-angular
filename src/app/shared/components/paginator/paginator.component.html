@@ -3,8 +3,8 @@
   <a 
     [class.active]="isActive" 
     [routerLink]="[]"
-    [queryParams]="{ page: pageNumber }"
-    >{{ symbol}}</a>
+    [queryParams]="{ ...this.currentQueryParams(), page: pageNumber }"
+    >{{symbol}}</a>
 </ng-template>
 
 

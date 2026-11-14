@@ -1,6 +1,7 @@
 import { NgTemplateOutlet } from "@angular/common";
 import { Component, computed, inject, input } from "@angular/core";
-import { Router, RouterLink } from "@angular/router";
+import { toSignal } from "@angular/core/rxjs-interop";
+import { ActivatedRoute, Router, RouterLink } from "@angular/router";
 import INPUTS from "@app/constants/input-constants";
 import { handleInput, Keybind } from "@app/shared/utils/input-handler";
 
@@ -35,6 +36,12 @@ export class Paginator {
   model = input.required<PaginatorProps>();
   
   private readonly router = inject(Router);  
+  private readonly route = inject(ActivatedRoute);
+
+  readonly currentQueryParams = toSignal(
+    this.route.queryParams,
+    { initialValue: this.route.snapshot.queryParams }
+  );
 
   paginatorButtons = computed(() => {
     const currentPage = this.model().currentPage;
@@ -43,8 +50,7 @@ export class Paginator {
     const maxPreviousPageButtons = this.model().maxPreviousPageButtons;
     const buttons : PaginatorElement[] = [];
 
-   
-
+  
     let startElement = this.Clamp(currentPage - maxPreviousPageButtons, 1, totalPages);
     const endElement = this.Clamp(startElement + maxButtonsDisplayed - 1, 1, totalPages);
 
@@ -99,7 +105,8 @@ export class Paginator {
   next() {    
     this.router.navigate([], { 
       queryParams: {
-         page: this.Clamp(this.model().currentPage + 1, 1, this.model().totalPages) 
+          ...this.currentQueryParams(), 
+          page: this.Clamp(this.model().currentPage + 1, 1, this.model().totalPages) 
         } 
       });
   }
@@ -107,7 +114,8 @@ export class Paginator {
   previous() {
     this.router.navigate([], {
       queryParams: {
-         page: this.Clamp(this.model().currentPage - 1, 1, this.model().totalPages) 
+          ...this.currentQueryParams(), 
+          page: this.Clamp(this.model().currentPage - 1, 1, this.model().totalPages) 
         } 
     });
   }
