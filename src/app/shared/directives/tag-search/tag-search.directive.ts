@@ -1,13 +1,34 @@
-import { computed, Directive, effect, inject, signal, viewChild, ElementRef, linkedSignal } from '@angular/core';
+import { computed, Directive, effect, inject, signal, viewChild, ElementRef, linkedSignal, Signal, InjectionToken } from '@angular/core';
 import { ApiUrlsService, TagsService } from "@contract/index";
 import { injectQuery } from "@tanstack/angular-query-experimental";
 import { lastValueFrom } from "rxjs";
 import CONSTANTS from '@app/constants/gallery-constants';
 import INPUT_CONSTANTS from '@app/constants/input-constants';
 import TAG_CONSTANTS from '@app/constants/tag-constants';
-import { handleInput, Keybind } from '../utils/input-handler';
+import { handleInput, Keybind } from '../../utils/input-handler';
 import { getCurrentWord, replaceCurrentWord } from "@shared/utils/tag-input-helpers";
 import { modulo } from '@shared/utils/util-functions';
+
+
+export interface TagSearchInputBindings {
+  inputValue: () => string;
+  onInputChange: (event: Event) => void;
+  onSelect: (event: Event) => void;
+  onFocus: () => void;
+  onBlur: (event: FocusEvent) => void;
+  onKeyDown: (event: KeyboardEvent) => void;
+}
+
+export interface TagSearchLiBindings {
+  onMouseOver: (index: number) => void;
+  onMouseClick: (event: PointerEvent) => void;
+}
+
+export const TAG_SEARCH_INPUT_BINDINGS =
+  new InjectionToken<TagSearchInputBindings>('TagSearchInputBindings');
+
+export const TAG_SEARCH_LI_BINDINGS =
+  new InjectionToken<TagSearchLiBindings>('TagSearchLiBindings');
 
 
 const MINIMAL_SEARCH_VALUE_LENGTH = 2
@@ -22,8 +43,7 @@ export abstract class TagSearch {
   urlsService = inject(ApiUrlsService)
   tagsService = inject(TagsService)
 
-  inputElement = viewChild<ElementRef<HTMLInputElement>>('tagSearchInput');
-  suggestionsListElement = viewChild<ElementRef<HTMLUListElement>>('tagSearchSuggestions');
+  abstract inputElement : Signal<HTMLInputElement | undefined>; 
 
   protected inputValue = signal("")
   protected cursorPosition = signal(0)
@@ -56,21 +76,11 @@ export abstract class TagSearch {
     enabled: this.currentTagInput().value.length >= MINIMAL_SEARCH_VALUE_LENGTH
   }));
 
-  constructor() {
-    effect(() => {
-      // console.log(this.cursorPosition());
-      // console.log(this.tagSearchQuery.data());
-      // console.log(this.inputValue(), this.cursorPosition(), this.currentTagInput().value);
-      // console.log(this.selectedSuggestionIndex());
-    })
-  }
-
   abstract submit(inputValue: string) : void;
 
   private onSelect(event: Event) {
     const target = event.target;
     if (target instanceof HTMLInputElement) {
-      console.log("ONSelect", target.selectionStart);
       this.cursorPosition.set(target.selectionStart ?? 0);
     }
   }
@@ -106,7 +116,7 @@ export abstract class TagSearch {
 
     this.inputValue.set(newValue.value);
     requestAnimationFrame(() => {
-      const inputElement = this.inputElement()?.nativeElement;      
+      const inputElement = this.inputElement();      
       if (inputElement) {
         inputElement.setSelectionRange(newValue.cursorPosition, newValue.cursorPosition);
       }
@@ -141,7 +151,6 @@ export abstract class TagSearch {
   };
 
   protected onMouseClickSuggestion(event: PointerEvent) {
-    console.log(event.button);
     if (event.button === 0) {
       this.submitAction();
     }
@@ -161,13 +170,13 @@ export abstract class TagSearch {
 
   private readonly blurBind = new Keybind(
     [INPUT_CONSTANTS.SUGGESTION_NAVIGATION_CANCEL],
-    () => this.inputElement()?.nativeElement.blur(),
+    () => this.inputElement()?.blur(),
     true
   );
 
   private readonly focusBind = new Keybind(
     [INPUT_CONSTANTS.SEARCH_INPUT_FOCUS],
-    () => this.inputElement()?.nativeElement.focus(),
+    () => this.inputElement()?.focus(),
   );
 
   private readonly applySuggestionBind = new Keybind(
@@ -189,4 +198,17 @@ export abstract class TagSearch {
     handleInput(event, [this.focusBind]);
   }
 
+  readonly inputBindings : TagSearchInputBindings  = {
+    inputValue: () => this.inputValue(),
+    onInputChange: (event: Event) => this.onInputChange(event),
+    onSelect: (event: Event) => this.onSelect(event),
+    onFocus: () => this.onInputFocus(),
+    onBlur: (event: FocusEvent) => this.onInputBlur(event),
+    onKeyDown: (event: KeyboardEvent) => this.onKeyDownInput(event),
+  };
+
+  readonly liBindings : TagSearchLiBindings = {
+    onMouseOver: (index: number) => this.onMouseOverSuggestion(index),
+    onMouseClick: (event: PointerEvent) => this.onMouseClickSuggestion(event),
+  };
 }
