@@ -10,6 +10,7 @@ import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { Paginator } from '@app/shared/components';
 import { ItemPreview, ItemsGrid, NavigationBar } from '@app/features/gallery/components';
+import { RandomSeedProviderService } from '@app/shared/services/random-seed-provider.service';
 
 
 @Component({
@@ -21,25 +22,24 @@ import { ItemPreview, ItemsGrid, NavigationBar } from '@app/features/gallery/com
 })
 export class Gallery extends PagedDirective {
   galleryName = input.required<string>();
+  filters = input<string>();
   
-  assetBrowserService = inject(AssetBrowserService);
-  urlsService = inject(ApiUrlsService);
-  
-  readonly loading = signal(false);
-  readonly error = signal<string | null>(null);
+  private readonly assetBrowserService = inject(AssetBrowserService);
+  private readonly urlsService = inject(ApiUrlsService);
 
   totalPages = computed(() => this.itemsQuery.data()?.pagesCount);
   maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
   maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
   
   itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
+  // private readonly seedProvider = inject(RandomSeedProviderService);
   
   private readonly itemsQuery = injectQuery(() => ({
     queryKey: [
       AssetBrowserService.name,
       ...this.urlsService.getListItemsQueryKey(this.galleryName()),
       {
-        filter: '',
+        filter: this.filters(),
         page: this.page()
       }
     ],
@@ -47,7 +47,7 @@ export class Gallery extends PagedDirective {
       lastValueFrom(
         this.assetBrowserService.listItems(
           this.galleryName(),
-          '',
+          this.filters(),
           this.itemsPerPage * (this.page() - 1),
           this.itemsPerPage 
         )

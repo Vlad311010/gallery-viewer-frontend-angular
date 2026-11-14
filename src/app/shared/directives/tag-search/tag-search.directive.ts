@@ -1,4 +1,4 @@
-import { computed, Directive, effect, inject, signal, viewChild, ElementRef, linkedSignal, Signal, InjectionToken } from '@angular/core';
+import { computed, Directive, effect, inject, signal, viewChild, ElementRef, linkedSignal, Signal, InjectionToken, WritableSignal, OnInit } from '@angular/core';
 import { ApiUrlsService, TagsService } from "@contract/index";
 import { injectQuery } from "@tanstack/angular-query-experimental";
 import { lastValueFrom } from "rxjs";
@@ -31,22 +31,22 @@ export const TAG_SEARCH_LI_BINDINGS =
   new InjectionToken<TagSearchLiBindings>('TagSearchLiBindings');
 
 
-const MINIMAL_SEARCH_VALUE_LENGTH = 2
+const MINIMAL_SEARCH_VALUE_LENGTH = 2;
 
 @Directive({
   host: {
     '(window:keydown)': 'onKeyDownWindow($event)',
   },
 })
-export abstract class TagSearch {
+export abstract class TagSearch implements OnInit {
 
-  urlsService = inject(ApiUrlsService)
-  tagsService = inject(TagsService)
+  urlsService = inject(ApiUrlsService);
+  tagsService = inject(TagsService);
 
   abstract inputElement : Signal<HTMLInputElement | undefined>; 
 
-  protected inputValue = signal("")
-  protected cursorPosition = signal(0)
+  protected inputValue! : WritableSignal<string>;
+  protected cursorPosition = signal(0);
   protected readonly selectedSuggestionIndex = linkedSignal<number | null>(
     () => { this.tagSearchQuery.data(); this.isFocused(); return null }); // reseting selection on query or focus state change
   
@@ -77,6 +77,11 @@ export abstract class TagSearch {
   }));
 
   abstract submit(inputValue: string) : void;
+  protected inputInitialValue() : string { return ""; };
+
+  ngOnInit(): void {
+    this.inputValue = signal(this.inputInitialValue());
+  }
 
   private onSelect(event: Event) {
     const target = event.target;
@@ -97,9 +102,7 @@ export abstract class TagSearch {
     const selecteSuggestionIdx = this.selectedSuggestionIndex();
     if (!suggestions || selecteSuggestionIdx === null) {
       const input = this.inputValue().trim()
-      if (input) {
-        this.submit(input);
-      }
+      this.submit(input);
 
       return;
     }
