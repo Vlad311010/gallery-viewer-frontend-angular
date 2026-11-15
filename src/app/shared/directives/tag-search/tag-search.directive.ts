@@ -183,7 +183,7 @@ export abstract class TagSearch implements OnInit {
   );
 
   private readonly applySuggestionBind = new Keybind(
-    [INPUT_CONSTANTS.SUGGESTION_NAVIGATION_APPLY],
+    [INPUT_CONSTANTS.SUGGESTION_NAVIGATION_APPLY, INPUT_CONSTANTS.SUGGESTION_NAVIGATION_APPLY_NUMPAD],
     () => this.submitAction(),
     true
   );

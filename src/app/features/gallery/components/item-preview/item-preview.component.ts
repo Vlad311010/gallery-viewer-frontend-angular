@@ -56,6 +56,3 @@ export class ItemPreview {
     this.isLoadingPreview.set(value);
   }
 }
-
-
-

@@ -25,14 +25,13 @@ export class Gallery extends PagedDirective {
   filters = input<string>();
   
   private readonly assetBrowserService = inject(AssetBrowserService);
-  private readonly urlsService = inject(ApiUrlsService);
+  private readonly urlsService = inject(ApiUrlsService);  
 
   totalPages = computed(() => this.itemsQuery.data()?.pagesCount);
   maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
   maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
   
   itemsPerPage = CONSTANTS.ITEMS_PER_ROW * CONSTANTS.ROWS;
-  // private readonly seedProvider = inject(RandomSeedProviderService);
   
   private readonly itemsQuery = injectQuery(() => ({
     queryKey: [

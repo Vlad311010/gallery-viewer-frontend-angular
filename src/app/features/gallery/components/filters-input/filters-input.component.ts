@@ -6,6 +6,7 @@ import { TAG_SEARCH_INPUT_BINDINGS, TAG_SEARCH_LI_BINDINGS, TagSearch } from "@a
 import { ActivatedRoute, Router } from "@angular/router";
 import { map } from "rxjs";
 import { toSignal } from "@angular/core/rxjs-interop";
+import { RandomSeedProviderService } from "@app/shared/services/random-seed-provider.service";
 
 
 
@@ -28,6 +29,7 @@ import { toSignal } from "@angular/core/rxjs-interop";
 export class FiltersInput extends TagSearch {
   private readonly router = inject(Router);
   private readonly route = inject(ActivatedRoute);
+  private readonly seedProvider = inject(RandomSeedProviderService);
 
   private readonly inputElementRef = viewChild<ElementRef<HTMLInputElement>>('tagSearchInput');
 
@@ -41,13 +43,26 @@ export class FiltersInput extends TagSearch {
   readonly inputElement = computed(() => this.inputElementRef()?.nativeElement);
 
   override inputInitialValue() {
-    return this.appliedFilters();
+    return this.seedFlagExcluding(this.appliedFilters()); // excluding seed flag from search input
   }
   
   override submit(inputValue: string) {
+    inputValue = this.requestPreProcessing(inputValue); // setting and generating random:seed if needed
     this.router.navigate(['./'], {
       queryParams: { filters: inputValue },
       relativeTo: this.route
     });
+  }
+
+  private requestPreProcessing(requestFilters: string) {
+    if (requestFilters.includes(":random") && !requestFilters.includes("seed:")) {
+      return requestFilters + ` seed:${this.seedProvider.regenerate()}`;
+    }
+
+    return requestFilters;
+  }
+
+  private seedFlagExcluding(requestFilters: string) {
+    return requestFilters.replaceAll(/seed:(\d+)/g, '');
   }
 }

@@ -14,15 +14,20 @@ export class RandomSeedProviderService {
       if (Number.isSafeInteger(value)) return value;
     }
 
-    const seed = crypto.getRandomValues(new Uint32Array(1))[0];
+    const seed = this.generateSeed();
     sessionStorage.setItem(this.storageKey, String(seed));
 
     return seed;
   }
 
-  public regenerate(): void {
-    const seed = crypto.getRandomValues(new Uint32Array(1))[0];
+  public regenerate(): number {
+    const seed = this.generateSeed();
     sessionStorage.setItem(this.storageKey, String(seed));
     this.seed.set(seed);
+    return seed;
+  }
+
+  private generateSeed() {
+    return Math.abs(crypto.getRandomValues(new Int32Array(1))[0]);
   }
 }
