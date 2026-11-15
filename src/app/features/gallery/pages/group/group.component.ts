@@ -10,6 +10,8 @@ import { injectMutation, injectQuery, QueryClient } from '@tanstack/angular-quer
 import { ViewStateService } from '@app/shared/services/view-state.service';
 import { ItemPreviewGroup, ItemsGrid, ItemType, GroupGridItem } from '@app/features/gallery/components';
 import { Paginator } from '@app/shared/components';
+import { NgxToastService } from 'ngx-toastf';
+import { toastDefaultOptions } from '@app/shared/utils/toasts-hepler';
 
 interface PositionData {
   id: number;
@@ -32,7 +34,8 @@ export class Group extends PagedDirective {
   private readonly groupsService = inject(GroupsService);
   private readonly urlsService = inject(ApiUrlsService)
   private readonly queryClient = inject(QueryClient)
-
+  private readonly toastService = inject(NgxToastService)
+   
   override totalPages = computed(() => this.itemsQuery.data()?.pagesCount);
   override maxButtonsDisplayed = signal(CONSTANTS.PAGINATOR_MAX_BUTTONS_DISPLAYED)
   override maxPreviousPageButtons = signal(CONSTANTS.PAGINATOR_MAX_PREVIOUS_PAGE_BUTTONS);
@@ -82,12 +85,17 @@ export class Group extends PagedDirective {
       ),
 
     onSuccess: async response => {
+      this.notifyCoverChange(true);
       this.queryClient.invalidateQueries({
         queryKey: [
           GroupsService.name,
           ...this.urlsService.getGroupDetailsQueryKey(this.id()),
         ],
       })
+    },
+    
+    onError: () => {
+      this.notifyCoverChange(false);
     }
   }));
   
@@ -142,13 +150,25 @@ export class Group extends PagedDirective {
   }
 
   private onPositionValueChange(id: number, value: number) {    
-    console.log("parent change");
     this.positions = this.positions.map(x => x.id === id ? {...x, position: value}  : x);
     this.normalizedPositions = this.normalizeAssetPositions(this.positions);
   }
 
   private normalizeAssetPositions(positions: PositionData[]) : PositionData[] {
     return positions.sort((a, b) => a.position - b.position).map((x, idx) => ({ id: x.id, position: idx }));
+  }
+
+  private notifyCoverChange(success: boolean): void {
+    if (success) {
+      this.toastService.showToastSuccess('', 
+        toastDefaultOptions({ title: "cover updated" })
+      );
+    }
+    else {
+      this.toastService.showToastError('', 
+        toastDefaultOptions({ title: "failed to updated cover" })
+      );
+    }
   }
 }
 

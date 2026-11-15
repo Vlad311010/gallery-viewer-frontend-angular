@@ -18,7 +18,7 @@ import { RandomSeedProviderService } from '@app/shared/services/random-seed-prov
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
   imports: [ItemPreview, ItemsGrid, ToGridItemPipe, Paginator, DisplayError, NavigationBar],
-  hostDirectives: [PageScrollBinds],
+  hostDirectives: [PageScrollBinds]
 })
 export class Gallery extends PagedDirective {
   galleryName = input.required<string>();
@@ -59,7 +59,6 @@ export class Gallery extends PagedDirective {
 
     effect(() => {
       const updatedAt = this.itemsQuery.dataUpdatedAt();
-
       if (updatedAt != 0) {
         window.scrollTo({
           top: 0,

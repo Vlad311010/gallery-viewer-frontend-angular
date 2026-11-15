@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'sass:map';
 @use 'variables' as vars;
+@use 'toast';
 
 $gradient-start: rgb(58, 75, 102);
 $gradient-end: rgb(37, 13, 73);
