@@ -10,7 +10,7 @@
     [isGroup]="item().type | isGroup"
     [editModeOn]="editModeOn"
   >
-    <loader [size]="36" color="white" [boundWidth]="150" [boundHeight]="300" [showLoader]="isLoading">
+    <loader [size]="36" color="white" [boundWidth]="150" [boundHeight]="200" [showLoader]="isLoading">
       @if (query.data() | isVideo) {
         <preview-media-video
           [itemId]="item().id"
