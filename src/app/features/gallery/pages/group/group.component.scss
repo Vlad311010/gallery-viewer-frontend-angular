@@ -3,7 +3,7 @@
 @use "buttons";
 
 $controlls-background: map.get(vars.$colors, 'background-dark');
-$controlls-border: #342347;
+$controlls-border: map.get(vars.$colors, 'controll-border');
 $controlls-border-width: 2px;
 
 :host {

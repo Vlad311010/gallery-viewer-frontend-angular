@@ -1,11 +1,9 @@
 :host {
-  width: 50%;
-  margin: 25%;
-  margin-top: 10%;
   display: block;
 }
 
 .galleries-grid {
+  margin: 10% 25%;
   display: grid;
   grid-template-columns: repeat(2, 2fr);
   grid-template-rows: repeat(1, 1fr);
