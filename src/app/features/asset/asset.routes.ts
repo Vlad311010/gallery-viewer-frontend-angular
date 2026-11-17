@@ -1,6 +1,5 @@
 import { Routes } from '@angular/router';
-import { AssetDetails } from './components/asset-details/asset-details.component';
-import { AssetView } from './components/asset-view/asset-view.component';
+import { AssetDetails, AssetView } from '@app/features/asset/pages'
 
 export const ASSET_ROUTES: Routes = [
   {

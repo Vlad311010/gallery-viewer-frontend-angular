@@ -1,11 +1,10 @@
 import { Component, computed, inject, input, numberAttribute } from '@angular/core';
-import { AssetViewImage } from './asset-view-image/asset-view-image.component';
-import { AssetViewVideo } from './asset-view-video/asset-view-video.component';
 import { injectQuery } from '@tanstack/angular-query-experimental';
 import { ApiUrlsService, MediaService } from '@contract/index';
 import { lastValueFrom } from 'rxjs';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { IsVideoPipe } from '@shared/pipes/is-video';
+import { AssetViewImage, AssetViewVideo } from '@app/features/asset/components'
 
 @Component({
   selector: 'asset-view',
