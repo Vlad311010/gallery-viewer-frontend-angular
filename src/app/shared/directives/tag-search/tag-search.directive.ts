@@ -162,19 +162,19 @@ export abstract class TagSearch implements OnInit {
   private readonly suggestionsNextBind = new Keybind(
     [INPUT_CONSTANTS.SCROLL_DOWN_ARROWS],
     () => this.suggestionsNavigation(1, this.tagSearchQuery.data()?.length ?? 0),
-    true
+    { allowInEditableContent: true }
   );
 
   private readonly suggestionsPrevBind = new Keybind(
     [INPUT_CONSTANTS.SCROLL_UP_ARROWS],
     () => this.suggestionsNavigation(-1, this.tagSearchQuery.data()?.length ?? 0),
-    true
+    { allowInEditableContent: true }
   );
 
   private readonly blurBind = new Keybind(
     [INPUT_CONSTANTS.SUGGESTION_NAVIGATION_CANCEL],
     () => this.inputElement()?.blur(),
-    true
+    { allowInEditableContent: true }
   );
 
   private readonly focusBind = new Keybind(
@@ -185,7 +185,7 @@ export abstract class TagSearch implements OnInit {
   private readonly applySuggestionBind = new Keybind(
     [INPUT_CONSTANTS.SUGGESTION_NAVIGATION_APPLY, INPUT_CONSTANTS.SUGGESTION_NAVIGATION_APPLY_NUMPAD],
     () => this.submitAction(),
-    true
+    { allowInEditableContent: true }
   );
 
   protected onKeyDownInput(event: KeyboardEvent) {

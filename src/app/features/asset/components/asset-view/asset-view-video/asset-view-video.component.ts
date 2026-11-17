@@ -44,9 +44,28 @@ export class AssetViewVideo extends AssetViewBase {
     [INPUTS.FULLSCREEN_MODE],
     () => this.handleVideoMode(),
   ) 
+
+  private readonly prevAssetBind : Keybind = new Keybind( 
+    [INPUTS.PREV_PAGE_WASD, INPUTS.PREV_PAGE_ARROWS],
+    () => this.prevGroupAsset(),
+    { altKey: true }
+    
+  )
+  private readonly nextAssetBind : Keybind = new Keybind(
+    [INPUTS.NEXT_PAGE_WASD, INPUTS.NEXT_PAGE_ARROWS],
+    () => this.nextGroupAsset(),
+    { altKey: true }
+  ) 
   
   private onKeyDown(event: KeyboardEvent): void {
-    handleInput(event, [this.forwardBind, this.backwardBind, this.fullscreenModeBind]);
+    handleInput(event, [
+      this.forwardBind, 
+      this.backwardBind, 
+      this.fullscreenModeBind,
+      this.prevAssetBind,
+      this.nextAssetBind,
+      this.nextAssetBind
+    ]);
   }
 
   private handleVideoControlls(event: KeyboardEvent, direction: number) {
