@@ -4,9 +4,33 @@ import { Injectable, signal } from "@angular/core";
 export class RandomSeedProviderService {
   private readonly storageKey = 'gallery-filter-seed';
 
-  readonly seed = signal(this.getOrCreateSeed());
+  private readonly seed = signal(this.getOrCreateSeed());
 
-  private getOrCreateSeed(): number {
+  constructor() {
+    const stored = sessionStorage.getItem(this.storageKey);
+
+    if (stored !== null) {
+      const value = Number(stored);
+      if (Number.isSafeInteger(value)) {
+        this.seed.set(value);
+      }
+    }
+
+    this.regenerate()
+  }
+
+  public getSeed() {
+    const stored = sessionStorage.getItem(this.storageKey);
+
+    if (stored !== null) {
+      const value = Number(stored);
+      if (Number.isSafeInteger(value)) return value;
+    }
+
+    return undefined;
+  }
+
+  public getOrCreateSeed(): number {
     const stored = sessionStorage.getItem(this.storageKey);
 
     if (stored !== null) {

@@ -24,7 +24,11 @@
     [error]="state.error()"
   />
 } @else if (displayItems(); as data) {
-  <items-grid [items]="data.items" [itemTemplate]="assetPreview">
+  <items-grid 
+    [items]="data.items" 
+    [itemTemplate]="assetPreview" 
+    refShortcut elementFilter="item-preview"
+  >
     <ng-template #assetPreview let-item>
       <item-preview-group 
         [id]="item.id"

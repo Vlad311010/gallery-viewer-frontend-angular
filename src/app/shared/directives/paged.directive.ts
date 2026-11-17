@@ -1,4 +1,4 @@
-import { computed, Directive, input, effect, numberAttribute, Signal, model, inject } from '@angular/core';
+import { computed, Directive, input, effect, numberAttribute, Signal, inject } from '@angular/core';
 import { Router } from '@angular/router';
 
 @Directive()

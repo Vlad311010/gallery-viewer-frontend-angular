@@ -12,6 +12,7 @@ import { ItemPreviewGroup, ItemsGrid, ItemType, GroupGridItem } from '@app/featu
 import { Paginator } from '@app/shared/components';
 import { NgxToastService } from 'ngx-toastf';
 import { toastDefaultOptions } from '@app/shared/utils/toasts-hepler';
+import { LinkShortcutBinds } from '@app/shared/directives/link-shortcut-binds.directive';
 
 interface PositionData {
   id: number;
@@ -22,7 +23,7 @@ interface PositionData {
   selector: 'group',
   templateUrl: './group.component.html',
   styleUrl: './group.component.scss',
-  imports: [DisplayError, ItemsGrid, ItemPreviewGroup, Paginator],
+  imports: [DisplayError, ItemsGrid, ItemPreviewGroup, Paginator, LinkShortcutBinds],
   hostDirectives: [PageScrollBinds]
 })
 export class Group extends PagedDirective {
@@ -72,6 +73,7 @@ export class Group extends PagedDirective {
       lastValueFrom(
         this.groupsService.groupDetails(this.id())
       ),
+    refetchOnWindowFocus: false
   }))
 
   readonly setCoverMutation = injectMutation(() => ({

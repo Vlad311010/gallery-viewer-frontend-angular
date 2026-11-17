@@ -20,7 +20,7 @@ const INPUTS = {
   NEXT_PAGE_ARROWS: 'ArrowRight',
   
   SEARCH_INPUT_FOCUS: 'KeyQ',
-  FOLLOW_PREVIEW_LINK: 'KeyF',
+  FOLLOW_LINK: 'KeyF',
   FULLSCREEN_MODE: 'KeyF',
   SWITCH_VIEW_MODE: 'KeyE',
 

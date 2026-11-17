@@ -9,7 +9,11 @@
 } @else if (query.data(); as data) {
   <navigation-bar></navigation-bar>
   
-  <items-grid [items]="data.items | toGridItem" [itemTemplate]="assetPreview">
+  <items-grid 
+    [items]="data.items | toGridItem" 
+    [itemTemplate]="assetPreview" 
+    refShortcut elementFilter="item-preview"
+  >
     <ng-template #assetPreview let-item>
       <item-preview [item]="item" />
     </ng-template>  

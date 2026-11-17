@@ -10,14 +10,14 @@ import { injectQuery } from '@tanstack/angular-query-experimental';
 import { lastValueFrom } from 'rxjs';
 import { Paginator } from '@app/shared/components';
 import { ItemPreview, ItemsGrid, NavigationBar } from '@app/features/gallery/components';
-import { RandomSeedProviderService } from '@app/shared/services/random-seed-provider.service';
+import { LinkShortcutBinds } from '@app/shared/directives/link-shortcut-binds.directive';
 
 
 @Component({
   selector: 'app-gallery-list',
   templateUrl: './gallery.component.html',
   styleUrl: './gallery.component.scss',
-  imports: [ItemPreview, ItemsGrid, ToGridItemPipe, Paginator, DisplayError, NavigationBar],
+  imports: [ItemPreview, ItemsGrid, ToGridItemPipe, Paginator, DisplayError, NavigationBar, LinkShortcutBinds],
   hostDirectives: [PageScrollBinds]
 })
 export class Gallery extends PagedDirective {
@@ -51,6 +51,7 @@ export class Gallery extends PagedDirective {
           this.itemsPerPage 
         )
       ),
+    refetchOnWindowFocus: false
   }))
 
   constructor() {
