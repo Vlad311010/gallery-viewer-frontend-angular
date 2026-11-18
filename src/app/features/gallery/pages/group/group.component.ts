@@ -87,7 +87,10 @@ export class Group extends PagedDirective {
       ),
 
     onSuccess: async response => {
-      this.notifyCoverChange(true);
+      this.toastService.showToastSuccess('', 
+        toastDefaultOptions({ title: "cover updated" })
+      );
+
       this.queryClient.invalidateQueries({
         queryKey: [
           GroupsService.name,
@@ -97,7 +100,9 @@ export class Group extends PagedDirective {
     },
     
     onError: () => {
-      this.notifyCoverChange(false);
+      this.toastService.showToastError('', 
+        toastDefaultOptions({ title: "failed to updated cover" })
+      );
     }
   }));
   
@@ -159,22 +164,5 @@ export class Group extends PagedDirective {
   private normalizeAssetPositions(positions: PositionData[]) : PositionData[] {
     return positions.sort((a, b) => a.position - b.position).map((x, idx) => ({ id: x.id, position: idx }));
   }
-
-  private notifyCoverChange(success: boolean): void {
-    if (success) {
-      this.toastService.showToastSuccess('', 
-        toastDefaultOptions({ title: "cover updated" })
-      );
-    }
-    else {
-      this.toastService.showToastError('', 
-        toastDefaultOptions({ title: "failed to updated cover" })
-      );
-    }
-  }
 }
-
-
-
-
 

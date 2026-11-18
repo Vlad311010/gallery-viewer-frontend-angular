@@ -9,7 +9,7 @@ export function toastDefaultOptions(
     autoClose: true,
     duration: 2500,
     pauseOnHover: true,
-    closeButton: true,
+    closeButton: false,
     animationDuration: 300,
     position: NgxToastPosition.BottomRight,
     ...overrides

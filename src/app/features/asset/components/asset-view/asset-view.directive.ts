@@ -27,7 +27,7 @@ export abstract class AssetViewBase {
   protected readonly groupAssetInfoQuery = injectQuery(() => ({
     queryKey: [
       AssetsService.name,
-      this.urlsService.getGroupAssetInfoQueryKey(this.id())
+      ...this.urlsService.getGroupAssetInfoQueryKey(this.id())
     ],
     queryFn: () => {
       return lastValueFrom(this.assetsService.groupAssetInfo(this.id()));

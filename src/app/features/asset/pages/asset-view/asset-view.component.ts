@@ -22,10 +22,10 @@ export class AssetView {
   private readonly assetMimeTypeQuery = injectQuery(() => ({
     queryKey: [
       MediaService.name,
-      this.urlsService.getAssetMimeTypeQueryKey(this.assetId())
+      ...this.urlsService.getAssetQueryKey(this.assetId())
     ],
     queryFn: () => {
-      return lastValueFrom(this.mediaService.assetMimeType(this.assetId()));
+      return lastValueFrom(this.mediaService.assetHead(this.assetId()));
     }
   }))
 }

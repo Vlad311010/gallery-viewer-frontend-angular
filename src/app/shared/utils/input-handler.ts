@@ -43,7 +43,7 @@ function bindMatch(bind: Keybind | undefined, event: KeyboardEvent) {
   return bind.keycodes.some(keycode => keycode == event.code)
     && bind.ctrlKey === event.ctrlKey
     && bind.altKey === event.altKey
-    && (!bind.allowInEditableContent || !(['input', 'textarea', 'select'].includes(tag) || event.target.isContentEditable))
+    && (bind.allowInEditableContent || !(['input', 'textarea', 'select'].includes(tag) || event.target.isContentEditable))
 }
 
 export function handleInput(event: KeyboardEvent, keybinds : Keybind[]) {
