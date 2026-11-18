@@ -1,0 +1,91 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'tags';
+@use 'variables' as vars;
+
+
+$tag-search-text: map.get(vars.$text, 'text-primary');
+$tag-search-placeholder: map.get(vars.$text, 'text-muted');
+
+$tag-input-autocomplete-background: rgba(29, 26, 34, 0.85);
+$tag-input-autocomplete-background-selected: rgba(89, 104, 115, 0.6);
+
+$tag-input-autocomplete-occurences: rgb(153, 150, 150);
+
+.tag-input {
+  background: transparent;
+  color: $tag-search-text;
+
+  font: inherit;
+  outline: none;
+
+  transition: all 160ms ease;
+
+  &::placeholder {
+    color: $tag-search-placeholder;
+  }
+
+}
+
+.tag-input-suggestions {
+  position: absolute;
+  box-sizing: border-box;
+
+  margin: 0;
+  padding: 0;
+
+  list-style: none;
+
+  background: $tag-input-autocomplete-background;
+  color: $tag-search-text;
+
+  overflow-y: hidden;
+  z-index: 1000;
+}
+
+.tag-input-suggestion {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  padding: 1px 10px;
+
+  color: $tag-search-text;
+  font-size: 0.85rem;
+  text-align: left;
+
+  cursor: pointer;
+
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    text-shadow 160ms ease;
+
+  &-active {
+    background-color: $tag-input-autocomplete-background-selected;
+    color: $tag-search-text;
+  }
+
+  &-name {
+    min-width: 0;
+
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  &-occurrences {
+    flex: 0 0 auto;
+
+    margin-right: 0.2rem;
+
+    color: $tag-input-autocomplete-occurences;
+    font-size: 0.8rem;
+    font-weight: 500;
+    font-variant-numeric: tabular-nums;
+  }
+
+  &-active &-occurrences {
+    color: whitesmoke;
+  }
+}

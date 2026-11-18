@@ -3,7 +3,7 @@
 <input #tagSearchInput tagSearchInputBehavior
   placeholder="Search..."
 
-  class="tag-search"
+  class="tag-input search"
   id = "tag-search-input"
 
   autoComplete="off"
@@ -12,18 +12,18 @@
 />
 
 @if (showSuggestions()) {
-  <ul class="tag-search-suggestions">
+  <ul class="tag-input-suggestions search">
   @for (suggestion of query.data(); track suggestion.id) {
       <li tagSearchLiBehavior [index]="$index"
-        class="tag-search-suggestion tag-type"
+        class="tag-input-suggestion search tag-type"
         [class]="suggestion.category | toCategoryClass"
-        [class.tag-search-suggestion-active]="$index === selectedSuggestionIndex()"
+        [class.tag-input-suggestion-active]="$index === selectedSuggestionIndex()"
       >
-        <span class="tag-search-suggestion-name">
+        <span class="tag-input-suggestion-name">
           {{suggestion.name}} {{suggestion.canonicalName ? `[${suggestion.canonicalName}]` : ""}}
         </span>
 
-        <span class="tag-search-suggestion-occurrences">
+        <span class="tag-input-suggestion-occurrences">
           {{suggestion.occurrences}}
         </span>
       </li>

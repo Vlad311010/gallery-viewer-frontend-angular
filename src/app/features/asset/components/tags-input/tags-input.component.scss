@@ -1,0 +1,67 @@
+@use 'sass:color';
+@use 'sass:map';
+@use 'variables' as vars;
+@use 'tag_input';
+
+
+$tag-input-border: #7347d9;
+$tag-input-border-hover: #8c27ff;
+
+$tag-input-background-focus: #4d1a87;
+
+$tag-input-purple-rgb: rgb(139 92 246);
+$tag-input-glow: color.change($tag-input-purple-rgb, $alpha: 0.2);
+$tag-input-glow-hover: color.change($tag-input-purple-rgb, $alpha: 0.4);
+$tag-input-glow-strong: color.change($tag-input-purple-rgb, $alpha: 0.18);
+
+$shadow: color.change($tag-input-purple-rgb, $alpha: 0.06);
+
+:host {
+  position: relative;
+  display: block;
+}
+
+.tag-input.tagging {
+  width: 100%;
+  height: 24px;
+
+  border: 2px solid $tag-input-border;
+  border-radius: 3px;
+
+  box-sizing: border-box;
+
+  font-size: 0.75rem;
+
+  padding-left: 0.4rem;
+
+  box-shadow:
+    0 0 8px $tag-input-glow,
+    inset 0 0 8px $shadow;
+
+  &:focus {
+    border-color: $tag-input-border-hover;
+
+    box-shadow:
+      0 0 10px $tag-input-glow-hover,
+      0 0 20px $tag-input-glow-strong;
+  }
+}
+
+.tag-input-suggestions.tagging {
+  width: 100%;
+  margin-top: -1px;
+  border: 1px solid $tag-input-border;
+  border-top: 0px;
+  border-radius: 3px;  
+
+}
+
+.tag-input-suggestion.tagging {
+  padding: 0px 7px;
+  font-size: 0.75rem;
+
+  transition:
+    background-color 160ms ease,
+    color 160ms ease,
+    text-shadow 160ms ease;
+}

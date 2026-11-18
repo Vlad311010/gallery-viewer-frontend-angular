@@ -1,0 +1,32 @@
+@let query = tagSearchQuery;
+
+<input #tagsInput tagSearchInputBehavior
+  placeholder="Add tags..."
+
+  class="tag-input tagging"
+  id="tag-input"
+
+  autoComplete="off"
+  type="search"
+  spellCheck="false"
+/>
+
+@if (showSuggestions()) {
+  <ul class="tag-input-suggestions tagging">
+  @for (suggestion of query.data(); track suggestion.id) {
+      <li tagSearchLiBehavior [index]="$index"
+        class="tag-input-suggestion tagging tag-type"
+        [class]="suggestion.category | toCategoryClass"
+        [class.tag-input-suggestion-active]="$index === selectedSuggestionIndex()"
+      >
+        <span class="tag-input-suggestion-name">
+          {{suggestion.name}} {{suggestion.canonicalName ? `[${suggestion.canonicalName}]` : ""}}
+        </span>
+
+        <span class="tag-input-suggestion-occurrences">
+          {{suggestion.occurrences}}
+        </span>
+      </li>
+    }
+  </ul>
+}

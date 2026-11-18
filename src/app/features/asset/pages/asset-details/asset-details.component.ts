@@ -9,13 +9,15 @@ import { IsVideoPipe } from '@shared/pipes/is-video';
 import { NgxToastService } from 'ngx-toastf';
 import { toastDefaultOptions } from '@app/shared/utils/toasts-hepler';
 import { ViewStateService } from '@app/shared/services/view-state.service';
+import { TagsInput } from '@app/features/asset/components';
+
 
 
 @Component({
   selector: 'asset-details',
   templateUrl: 'asset-details.component.html',
   styleUrl: 'asset-details.component.scss',
-  imports: [KeyValuePipe, NgTemplateOutlet, ToCategoryClassPipe, IsVideoPipe]
+  imports: [KeyValuePipe, NgTemplateOutlet, ToCategoryClassPipe, IsVideoPipe, TagsInput]
 })
 export class AssetDetails {
   assetId = input.required<number>();
