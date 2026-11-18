@@ -5,6 +5,7 @@ import { provideDefaultClient } from "../contract/providers";
 
 import { routes } from './app.routes';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
+import { environment } from '../environments/environment';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -12,7 +13,7 @@ export const appConfig: ApplicationConfig = {
     provideHttpClient(withXhr()),
     provideTanStackQuery(new QueryClient()),
     provideDefaultClient({
-      basePath: "https://localhost:7043"
+      basePath: environment.apiBaseUrl
     })
   ]
 };

@@ -7,6 +7,7 @@
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
     "generate-api": "set NODE_EXTRA_CA_CERTS=C:\\Users\\Vlad\\Documents\\TO_DEL_ASP_NET_CER.pem && ng-openapi -c openapi.config.ts",
+    "publish": "ng build && powershell -ExecutionPolicy Bypass -File src\\scripts\\publish.ps1",
     "test": "ng test"
   },
   "private": true,
