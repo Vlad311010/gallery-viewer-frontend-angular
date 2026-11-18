@@ -1,0 +1,93 @@
+@let query = tagsQuery;
+@let editModeOn = viewState.getState().editModeOn;
+
+
+<div class="topbar">
+  <div>
+  </div>
+  <div>
+    search
+  </div>
+</div>
+
+<main class="content">
+  <aside class="sidebar">
+    @if (query.data(); as data) {
+      @for (group of data.tags | keyvalue: compareCategories; track group.key) {
+        <ng-container 
+          [ngTemplateOutlet]="tagCategorySection" 
+          [ngTemplateOutletContext]="{ category: group.key, tags: group.value }" 
+        />
+      }
+    }
+
+    <div class="sidebar-actions">
+      <span class="sidebar-actions-group">
+        <span class="sidebar-actions-group-label">TAGS</span>
+        <span class="button button-sm button-subtle">
+          GET TAGS
+        </span>
+      </span>
+
+      <span class="sidebar-actions-group">
+        <span class="sidebar-actions-group-label">GROUP</span>
+        
+        <button 
+          class="button button-fit button-subtle"            
+        >
+          ATTACH TO GROUP
+        </button>
+        
+      </span>
+    </div>
+  </aside>
+
+  <div class="media">
+    @if (mimeType() | isVideo) {
+      <video
+        controls    
+        loop
+        [autoplay]="false"
+        [muted]="true"
+        [src]="assetUrl()"
+      >
+      </video>
+    }
+    @else {
+      <img
+        [src]="assetUrl()"
+      >
+    } 
+  </div>
+</main>
+
+
+<ng-template #tagCategorySection let-category="category" let-tags="tags">
+  <section class="tag-category">
+    <h3 class="tag-category-title tag-type" [class]="category | toCategoryClass">{{category}}</h3>
+    <div class="tag-category-list">
+      @for(tag of tags; track tag.id) {
+        <ng-container 
+          [ngTemplateOutlet]="tagInstance" 
+          [ngTemplateOutletContext]="{ tag: tag }" 
+        />
+      }
+    </div>
+  </section>
+</ng-template>
+
+
+<ng-template #tagInstance let-tag="tag">
+  <span class="tag-entry">
+    <a class="tag-link tag-type" [class]="tag.category | toCategoryClass">
+      <span>
+        <span class="tag-name">{{tag.name}}</span>
+        <span class="tag-occurrences">{{tag.occurrences}}</span>
+      </span>
+    </a>
+    
+    @if ( editModeOn) {
+      <span class="tag-remove-action" (click)="removeTag(tag.name)" >—</span>
+    }
+  </span>
+</ng-template>

@@ -1,0 +1,242 @@
+@use 'sass:map';
+@use 'sass:color';
+@use "variables" as vars;
+@use "buttons";
+@use "tags" as tags;
+
+$sidebar-width: 14vw;
+$controll-border: map.get(vars.$colors, 'controll-border');
+$controll-background: map.get(vars.$colors, 'background-dark');
+$controll-border-width: 2px;
+
+
+$sidebar-text: map.get(vars.$text, 'text-primary');
+$sidebar-text-muted: map.get(vars.$text, 'text-muted');
+
+$sidebar-category-heading: $sidebar-text;
+$sidebar-category-gap: 1.1rem;
+
+$sidebar-link-hover: #e7dff0;
+$sidebar-text-underline: #665b70;
+
+$sidebar-purple-rgb: 139, 92, 246;
+$sidebar-glow: rgb($alpha: 0.3, $sidebar-purple-rgb...);
+  
+$sidebar-occurrences: #c9c5cf;
+
+
+.topbar {
+  display: grid;
+  grid-template-columns: $sidebar-width minmax(0, 1fr);
+  align-items: center;
+
+  margin-left: -2px;
+  padding: 1rem;
+
+  background-color: $controll-background;
+
+  &-controll-elements {
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+  }
+
+  &-title {
+    justify-self: start;
+    margin: 0;
+
+    color: map.get(vars.$text, 'text-light');
+
+    font-family: map.get(vars.$fonts, 'sans');
+    font-size: 24px;
+    font-weight: 500;
+    text-align: center;
+  }
+}
+
+.content {
+  display: grid;
+  grid-template-columns: $sidebar-width minmax(0, 1fr);
+  min-height: 100vh;
+}
+
+.sidebar {
+  box-sizing: border-box;
+  padding: 10px 12px;
+
+  background: $controll-background;
+
+  overflow: visible;
+}
+
+.media {
+  position: sticky;
+  top: 0;
+
+  min-width: 0;
+  height: 100vh;
+
+  border: $controll-border-width solid $controll-border;
+  border-bottom: 0;
+  border-right: 0;
+
+  background-color: $controll-background;
+
+  img,
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+
+    object-fit: contain;
+    user-select: none;
+  }
+}
+
+.tag-category {
+  margin-bottom: 1.1rem;
+
+  &:last-child {
+    margin-bottom: 0;
+  }
+
+  &-title {
+    margin: 0 2px 5px;
+
+    color: $sidebar-category-heading !important;
+
+    font-size: 0.85rem;
+    font-weight: 600;
+    letter-spacing: 0.06em;
+    text-align: left;
+    text-transform: uppercase;
+
+    border-bottom: 1px solid rgba(80, 80, 80, 0.8);
+
+    @each $type, $color in tags.$tag-type-colors {
+      &.#{$type}-tag {
+        border-bottom-color: color.change($color, $alpha: 0.6);
+      }
+    }
+  }
+
+  &-list {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0;
+
+    margin-left: 4px;
+  }
+}
+
+.tag-entry {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+
+  width: 100%;
+}
+
+.tag-link {
+  display: inline-flex;
+  align-items: baseline;
+  gap: 0;
+
+  padding: 0;
+
+  border: 0;
+  background: transparent;
+  color: $sidebar-text;
+
+  font: inherit;
+  font-size: 0.82rem;
+  line-height: 1.35;
+  text-align: left;
+
+  cursor: pointer;
+
+  &:hover {
+    .tag-name {
+      color: $sidebar-link-hover;
+      text-decoration-color: currentColor;
+      text-shadow: 0 0 7px $sidebar-glow;
+    }
+  }
+}
+
+.tag-name {
+  padding: 2px 4px 0 0;
+
+  text-decoration-line: underline;
+  text-decoration-color: $sidebar-text-underline;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 2px;
+}
+
+.tag-occurrences {
+  color: $sidebar-occurrences;
+
+  font-size: 0.68rem;
+  font-variant-numeric: tabular-nums;
+}
+
+.tag-remove-action {
+  padding: 0 4px;
+
+  border: 0;
+  background: none;
+  color: $sidebar-text-muted;
+
+  font: inherit;
+  font-size: 0.65rem;
+  line-height: 1;
+
+  cursor: pointer;
+
+  transition:
+    color 0.15s ease,
+    text-shadow 0.15s ease;
+
+  &:hover {
+    color: $sidebar-link-hover;
+    text-shadow: 0 0 6px $sidebar-glow;
+  }
+}
+
+.sidebar-actions {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+
+  margin-top: 2rem;
+  padding: 8px 0;
+
+  text-align: center;
+
+  .button {
+    padding: 0;
+  }
+
+  > span {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  &-group-label {
+    margin-bottom: 0.4rem;
+
+    border-bottom: 1px solid $sidebar-text-underline;
+
+    font-size: 0.7rem;
+  }
+
+  &-group-selector {
+    width: 180px;
+  }
+
+  &-group {
+    padding-top: 0.5rem;
+  }
+}
