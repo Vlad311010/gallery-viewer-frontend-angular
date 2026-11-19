@@ -4,8 +4,14 @@
 @let isAssetAddRemoveAllowed = assetGroupId == null || assetGroupDetailsQuery.data()?.isAssetAddRemoveAllowed;
 
 <div class="topbar">
-  <div>
+  <div class="navigation">
+    <a [href]="returnUrl()" class="button button-subtle button-min" [class.disabled]="!returnUrl()">↩ Back</a>
+    
+    <a [routerLink]="['../../group', assetGroupId]" class="button button-subtle button-min" [class.hidden]="!assetGroupId">
+      ≡Group
+    </a>
   </div>
+  
   <div>
     <tags-input (submitCall)="onAddTagsSubmit($event)" />
   </div>

@@ -19,8 +19,8 @@ interface GalleryThumbnail {
   imports: [DisplayError, NgTemplateOutlet, RouterLink, UpperCasePipe],
 })
 export class GallerySelect {
-  galleryService = inject(GalleryService);
-  urlsService = inject(ApiUrlsService);
+  protected readonly galleryService = inject(GalleryService);
+  protected readonly urlsService = inject(ApiUrlsService);
 
   private readonly galleriesQuery = injectQuery(() => ({
     queryKey: [

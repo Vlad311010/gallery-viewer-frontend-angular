@@ -32,8 +32,8 @@ export class ItemPreviewGroup {
   positionChange = output<number>();
   assetRemove = output<number>();
 
-  viewStateService = inject(ViewStateService)
-  assetsService = inject(AssetsService)
+  protected readonly viewStateService = inject(ViewStateService)
+  protected readonly assetsService = inject(AssetsService)
 
   viewState = this.viewStateService.getState();
   

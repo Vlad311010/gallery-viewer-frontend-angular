@@ -7,7 +7,7 @@
     [error]="query.error()"
   />
 } @else if (query.data(); as data) {
-  <navigation-bar></navigation-bar>
+  <navigation-bar [galleryName]="galleryName()" />
   
   <items-grid 
     [items]="data.items | toGridItem" 

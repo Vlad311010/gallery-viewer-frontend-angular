@@ -12,28 +12,31 @@ import { ViewStateService } from '@app/shared/services/view-state.service';
 import { TagsInput } from '@app/features/asset/components';
 import CONSTANTS from '@app/constants/tag-constants';
 import { DropdownSelectorComponent, SelectOption } from '@app/shared/components/dropdown-selector/dropdown-selector.component';
+import { RouterLink } from '@angular/router';
 
 
 @Component({
   selector: 'asset-details',
   templateUrl: 'asset-details.component.html',
   styleUrl: 'asset-details.component.scss',
-  imports: [KeyValuePipe, NgTemplateOutlet, ToCategoryClassPipe, IsVideoPipe, TagsInput, DropdownSelectorComponent]
+  imports: [KeyValuePipe, NgTemplateOutlet, ToCategoryClassPipe, IsVideoPipe, TagsInput, DropdownSelectorComponent, RouterLink]
 })
 export class AssetDetails {
   assetId = input.required<number>();  
+  returnUrl = input<string>();
   
-  urlsService = inject(ApiUrlsService)
-  tagsService = inject(TagsService);
-  assetsService = inject(AssetsService);
-  mediaService = inject(MediaService);
-  groupsService = inject(GroupsService);
-  galleriesService = inject(GalleryService);
-  toastService = inject(NgxToastService);
-  queryClient = inject(QueryClient);
-  viewState = inject(ViewStateService);
+  protected readonly urlsService = inject(ApiUrlsService)
+  protected readonly tagsService = inject(TagsService);
+  protected readonly assetsService = inject(AssetsService);
+  protected readonly mediaService = inject(MediaService);
+  protected readonly groupsService = inject(GroupsService);
+  protected readonly galleriesService = inject(GalleryService);
+  protected readonly toastService = inject(NgxToastService);
+  protected readonly queryClient = inject(QueryClient);
+  protected readonly viewState = inject(ViewStateService);
   
   assetUrl = computed(() => this.urlsService.getAssetUrl(this.assetId()));
+  groupUrl = computed(() => this.assetInfoQuery.data()?.groupId ? `../../group/${this.assetInfoQuery.data()?.groupId}` : null);
 
   private readonly categoriesOrder = ['author', 'source', 'character', 'general'];
   

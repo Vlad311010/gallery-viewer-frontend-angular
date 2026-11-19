@@ -1,3 +1,3 @@
-<a tabindex="-1" [routerLink]="directTo()">
+<a tabindex="-1" [routerLink]="directTo()" [queryParams]="{ returnUrl: router.url }">
   <ng-content />
 </a>

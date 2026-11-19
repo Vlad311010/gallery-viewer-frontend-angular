@@ -12,7 +12,7 @@ import INPUT_CONSTANTS from '@app/constants/input-constants';
 export class LinkShortcutBinds {
   readonly elementFilter = input.required<string>();
   
-  mouseTracking = inject(MouseTrackingService);
+  protected readonly mouseTracking = inject(MouseTrackingService);
 
   private openRef() {
     const pos = this.mouseTracking.mousePosition();

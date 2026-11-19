@@ -40,8 +40,8 @@ const MINIMAL_SEARCH_VALUE_LENGTH = 2;
 })
 export abstract class TagSearch implements OnInit {
 
-  urlsService = inject(ApiUrlsService);
-  tagsService = inject(TagsService);
+  protected readonly urlsService = inject(ApiUrlsService);
+  protected readonly tagsService = inject(TagsService);
 
   abstract inputElement : Signal<HTMLInputElement | undefined>; 
 
