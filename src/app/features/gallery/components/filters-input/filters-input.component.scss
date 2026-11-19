@@ -6,7 +6,8 @@
 $tag-search-border: #7347d9;
 $tag-search-border-hover: #8c27ff;
 
-$tag-search-purple-rgb: rgb(139, 92, 246);
+$tag-search-purple-rgb: map.get(vars.$colors, 'light-purple');
+
 
 $tag-search-glow: color.change($tag-search-purple-rgb, $alpha: 0.2);
 $tag-search-glow-hover: color.change($tag-search-purple-rgb, $alpha: 0.4);

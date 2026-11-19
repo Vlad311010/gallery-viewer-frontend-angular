@@ -7,7 +7,7 @@
 // ==========================================================================
 
 // Colors
-$color-purple: rgb(139, 92, 246);
+$color-purple: map.get(vars.$colors, 'light-purple');
 
 $color-text-primary-hover: #f3e8ff;
 

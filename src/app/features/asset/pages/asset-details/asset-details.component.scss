@@ -19,8 +19,8 @@ $sidebar-category-gap: 1.1rem;
 $sidebar-link-hover: #e7dff0;
 $sidebar-text-underline: #665b70;
 
-$sidebar-purple-rgb: 139, 92, 246;
-$sidebar-glow: rgb($alpha: 0.3, $sidebar-purple-rgb...);
+$sidebar-purple-rgb: map.get(vars.$colors, 'light-purple');
+$sidebar-glow: color.change($sidebar-purple-rgb, $alpha: 0.3);
   
 $sidebar-occurrences: #c9c5cf;
 

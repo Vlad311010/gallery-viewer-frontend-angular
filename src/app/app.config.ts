@@ -7,11 +7,19 @@ import { routes } from './app.routes';
 import { provideTanStackQuery, QueryClient } from '@tanstack/angular-query-experimental';
 import { environment } from '../environments/environment';
 
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      staleTime: 30_000,
+    }
+  }
+});
+
 export const appConfig: ApplicationConfig = {
   providers: [
     provideRouter(routes, withComponentInputBinding()),
     provideHttpClient(withXhr()),
-    provideTanStackQuery(new QueryClient()),
+    provideTanStackQuery(queryClient),
     provideDefaultClient({
       basePath: environment.apiBaseUrl
     })

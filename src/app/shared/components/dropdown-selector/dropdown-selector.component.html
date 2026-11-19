@@ -1,0 +1,50 @@
+ <div class="select-container" [class.select-disabled]="disabled()" (blur)="closeDropdown()">
+  <button class="select" [disabled]="disabled()" (click)="onDropDownClick()">
+    <ng-container
+      [ngTemplateOutlet]="option"
+      [ngTemplateOutletContext]="{ 
+        leftLabel: selectedOptionData().leftLabel, 
+        label: selectedOptionData().label, 
+        rightLabel: selectedOptionData().rightLabel
+      }" 
+    />
+  </button>
+
+  <ul class="select-options" [class.select-options-hidden]="!isOpen()" (blur)="closeDropdown()">
+    @for (optionData of data() | keyvalue: null; track optionData.key) {
+      <li 
+        class="select-option" [class.select-option-active]="false"
+        (mousedown)="onOptionSelect(optionData.key)"
+      >
+        <ng-container
+          [ngTemplateOutlet]="option" 
+          [ngTemplateOutletContext]="{ 
+            leftLabel: optionData.value.leftLabel, 
+            label: optionData.value.label, 
+            rightLabel: optionData.value.rightLabel
+          }" 
+        />
+      </li>
+    }
+  </ul>
+</div>
+
+<ng-template #option let-leftLabel="leftLabel" let-label="label" let-rightLabel="rightLabel">
+  <span class="select-option-content">
+    @if (leftLabel) {
+      <span class="select-option-left">
+        {{leftLabel}}
+      </span>
+    }
+
+    <span class="select-option-label">
+      {{label}}
+    </span>
+
+    @if (rightLabel) {
+      <span class="select-option-right">
+        {{rightLabel}}
+      </span>
+    }
+  </span>
+</ng-template>

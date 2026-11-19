@@ -1,12 +1,13 @@
 @let query = tagsQuery;
 @let editModeOn = viewState.getState().editModeOn;
-
+@let assetGroupId = assetGroupDetailsQuery.data()?.id;
+@let isAssetAddRemoveAllowed = assetGroupId == null || assetGroupDetailsQuery.data()?.isAssetAddRemoveAllowed;
 
 <div class="topbar">
   <div>
   </div>
   <div>
-    <tags-input />
+    <tags-input (submitCall)="onAddTagsSubmit($event)" />
   </div>
 </div>
 
@@ -31,13 +32,21 @@
 
       <span class="sidebar-actions-group">
         <span class="sidebar-actions-group-label">GROUP</span>
-        
-        <button 
-          class="button button-fit button-subtle"            
-        >
-          ATTACH TO GROUP
-        </button>
-        
+        @if (dropDownOptions(); as options) {
+          <dropdown-selector 
+            [data]="options" 
+            [disabled]="!isAssetAddRemoveAllowed" 
+            [initiallySelectedKey]="assetGroupId ?? null" 
+            (itemChange)="onGroupSelect($event)" 
+          />
+          <button 
+            class="button button-fit button-subtle"     
+            [disabled]="!isAssetAddRemoveAllowed || selectedGroupId() == null || assetGroupId == selectedGroupId()"
+            (click)="onGroupAttach()"
+          >
+            ATTACH TO GROUP
+          </button>
+        }
       </span>
     </div>
   </aside>
@@ -87,7 +96,7 @@
     </a>
     
     @if ( editModeOn) {
-      <span class="tag-remove-action" (click)="removeTag(tag.name)" >—</span>
+      <span class="tag-remove-action" (click)="onTagRemove(tag.name)" >—</span>
     }
   </span>
 </ng-template>
