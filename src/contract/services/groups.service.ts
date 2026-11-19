@@ -181,6 +181,7 @@ export class GroupsService {
         }
 
         return this.httpClient.request('delete', url, {
+            body: groupRemoveAssetRequestModel,
             observe,
             headers,
             reportProgress: options?.reportProgress,

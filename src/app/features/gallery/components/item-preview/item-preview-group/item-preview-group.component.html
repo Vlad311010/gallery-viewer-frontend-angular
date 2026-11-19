@@ -30,7 +30,7 @@
 
   @if (isAssetAddRemoveAllowed()) {
     <div class="button-container">
-      <button tabindex="-1" class="button button-control button-fit">REMOVE</button>
+      <button (click)="onAssetRemove(id())" tabindex="-1" class="button button-control button-fit">REMOVE</button>
     </div>
   }
 }

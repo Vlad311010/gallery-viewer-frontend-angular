@@ -37,8 +37,9 @@
         [normalizedPosition]="normalizedPositions.find(x => x.id == item.id)?.position ?? 0"
         [isAssetAddRemoveAllowed]="item.isAssetAddRemoveAllowed"
         [isCoverAsset]="item.isCoverAsset"
-        (coverFlagChange)="onCoverFlagChange(item.id, $event)";
-        (positionChange)="onPositionValueChange(item.id, $event)";
+        (coverFlagChange)="onCoverFlagChange(item.id, $event)"
+        (positionChange)="onPositionValueChange(item.id, $event)"
+        (assetRemove)="onAssetRemove($event)"
       />
     </ng-template>  
   </items-grid>

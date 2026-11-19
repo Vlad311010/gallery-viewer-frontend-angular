@@ -30,7 +30,7 @@ export class ItemPreviewGroup {
 
   coverFlagChange = output<boolean>();
   positionChange = output<number>();
-
+  assetRemove = output<number>();
 
   viewStateService = inject(ViewStateService)
   assetsService = inject(AssetsService)
@@ -56,6 +56,10 @@ export class ItemPreviewGroup {
 
   private updatePositionInputValue(value: number) {
     this.positionChange.emit(value);
+  }
+
+  private onAssetRemove(assetId: number) {
+    this.assetRemove.emit(assetId);
   }
 }
 

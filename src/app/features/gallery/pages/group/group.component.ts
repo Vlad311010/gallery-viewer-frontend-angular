@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, numberAttribute, signal } from '@angular/core';
 import CONSTANTS from '@app/constants/gallery-constants';
-import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, SetGroupCoverRequestModel } from '@contract/index';
+import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, GroupRemoveAssetRequestModel, SetGroupCoverRequestModel } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
@@ -45,6 +45,37 @@ export class Group extends PagedDirective {
 
   positions : PositionData[] = [];
   normalizedPositions : PositionData[] = [];
+
+  readonly displayItems = computed(() => {
+    const pagedItems = this.itemsQuery.data();
+    const groupDetails = this.groupDetailsQuery.data();
+
+    if (!pagedItems || !groupDetails) return null;
+
+    this.positions = pagedItems.items.map(x => ({id:x.id, position: x.inGroupPosition ?? 0}))
+    this.normalizedPositions = this.positions;
+
+    return {
+      ...pagedItems,
+      items: pagedItems.items.map(x => this.toAssetDetails(x, groupDetails))
+    }
+  })
+
+  constructor() {
+    super();
+
+    effect(() => {
+      const updatedAt = this.itemsQuery.dataUpdatedAt();
+
+      if (updatedAt != 0) {
+        window.scrollTo({
+          top: 0,
+          left: 0,
+          behavior: 'instant'
+        });
+      }
+    });
+  }
   
   readonly itemsQuery = injectQuery(() => ({
     queryKey: [
@@ -86,7 +117,7 @@ export class Group extends PagedDirective {
         )
       ),
 
-    onSuccess: async response => {
+    onSuccess: () => {
       this.toastService.showToastSuccess('', 
         toastDefaultOptions({ title: "cover updated" })
       );
@@ -105,38 +136,32 @@ export class Group extends PagedDirective {
       );
     }
   }));
-  
-  readonly displayItems = computed(() => {
-    const pagedItems = this.itemsQuery.data();
-    const groupDetails = this.groupDetailsQuery.data();
 
-    if (!pagedItems || !groupDetails) return null;
+  readonly detachAssetFromGroupMutation = injectMutation(() => ({
+    mutationFn: (body: GroupRemoveAssetRequestModel) =>
+      lastValueFrom(
+        this.groupsService.groupRemoveAsset(
+          body,
+          'response'
+        )
+      ),
 
-    this.positions = pagedItems.items.map(x => ({id:x.id, position: x.inGroupPosition ?? 0}))
-    this.normalizedPositions = this.positions;
-
-    return {
-      ...pagedItems,
-      items: pagedItems.items.map(x => this.toAssetDetails(x, groupDetails))
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({
+        queryKey: [
+          AssetBrowserService.name, 
+          ...this.urlsService.getListGroupQueryKey(this.id())
+        ],
+      })
+    },
+    
+    onError: (error) => {
+      console.log(error);
+      this.toastService.showToastError('', 
+        toastDefaultOptions({ title: "failed to remove asset" })
+      );
     }
-  })
-
-  constructor() {
-    super();
-
-    effect(() => {
-      const updatedAt = this.itemsQuery.dataUpdatedAt();
-
-      if (updatedAt != 0) {
-        window.scrollTo({
-          top: 0,
-          left: 0,
-          behavior: 'instant'
-        });
-      }
-    });
-  }
-
+  }));
 
   private toAssetDetails(asset: DisplayGroupItemResponseModel, groupDetails: AssetGroupResponseModel) : GroupGridItem{ 
     return {
@@ -159,6 +184,11 @@ export class Group extends PagedDirective {
   private onPositionValueChange(id: number, value: number) {    
     this.positions = this.positions.map(x => x.id === id ? {...x, position: value}  : x);
     this.normalizedPositions = this.normalizeAssetPositions(this.positions);
+  }
+
+  private onAssetRemove(assetId: number) {
+    console.log({groupId: this.id(), assetId: assetId});
+    this.detachAssetFromGroupMutation.mutate({groupId: this.id(), assetId: assetId});
   }
 
   private normalizeAssetPositions(positions: PositionData[]) : PositionData[] {
