@@ -1,6 +1,6 @@
 import { Component, computed, effect, inject, input, numberAttribute, signal } from '@angular/core';
 import CONSTANTS from '@app/constants/gallery-constants';
-import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, GroupRemoveAssetRequestModel, SetGroupCoverRequestModel } from '@contract/index';
+import { ApiUrlsService, AssetBrowserService, AssetGroupResponseModel, AssetPosition, DisplayGroupItemResponseModel, DisplayGroupItemResponseModelPagedData, GroupRemoveAssetRequestModel, SetAssetPositionsRequestModel, SetGroupCoverRequestModel } from '@contract/index';
 import { DisplayError } from '@app/shared/pages/display-error/error-message.component';
 import { PagedDirective } from '@shared/directives/paged.directive';
 import { PageScrollBinds } from '@app/shared/directives/page-scroll-binds.directive';
@@ -155,10 +155,35 @@ export class Group extends PagedDirective {
       })
     },
     
-    onError: (error) => {
-      console.log(error);
+    onError: () => {
       this.toastService.showToastError('', 
         toastDefaultOptions({ title: "failed to remove asset" })
+      );
+    }
+  }));
+
+  readonly setPositionsMutation = injectMutation(() => ({
+    mutationFn: (body: SetAssetPositionsRequestModel) =>
+      lastValueFrom(
+        this.groupsService.groupSetPositons(
+          this.id(),
+          body,
+          'response'
+        )
+      ),
+
+    onSuccess: () => {
+      this.queryClient.invalidateQueries({
+        queryKey: [
+          AssetBrowserService.name, 
+          ...this.urlsService.getListGroupQueryKey(this.id()),
+        ],
+      })
+    },
+    
+    onError: () => {
+      this.toastService.showToastError('', 
+        toastDefaultOptions({ title: "operation failed" })
       );
     }
   }));
@@ -185,9 +210,13 @@ export class Group extends PagedDirective {
     this.positions = this.positions.map(x => x.id === id ? {...x, position: value}  : x);
     this.normalizedPositions = this.normalizeAssetPositions(this.positions);
   }
+  
+  private async onPositionsSubmit() {
+    const body : SetAssetPositionsRequestModel = { positions: this.normalizedPositions };
+    await this.setPositionsMutation.mutateAsync(body);
+  }
 
   private onAssetRemove(assetId: number) {
-    console.log({groupId: this.id(), assetId: assetId});
     this.detachAssetFromGroupMutation.mutate({groupId: this.id(), assetId: assetId});
   }
 

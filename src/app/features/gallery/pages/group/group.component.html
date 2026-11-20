@@ -10,7 +10,7 @@
   
   
   <span class="controlls-bar-controll-elements" [style.visibility]="editModeOn ? 'visible' : 'hidden'">
-    <button class="button button-subtle button-sm" >
+    <button class="button button-subtle button-sm" (click)="onPositionsSubmit()" >
       SUBMIT POSITION EDITS
     </button>
   </span>
