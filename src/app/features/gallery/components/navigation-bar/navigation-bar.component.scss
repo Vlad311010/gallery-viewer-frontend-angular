@@ -1,24 +1,6 @@
-@use 'buttons.scss';
-
-/*:host {
-  display: flex;
-  align-items: center;
-  gap: 10px;
-
-  width: 100%;
-  padding: 10px 12px;
-
-  box-sizing: border-box;
-}*/
-
-/*:host {
-  display: flex;
-  align-items: center;
-
-  width: 100%;
-  gap: 12px;
-  
-}*/
+@use 'sass:map';
+@use 'buttons';
+@use 'variables' as vars;
 
 .navigation-container {
   display: flex;

@@ -3,14 +3,19 @@
 @use 'variables' as vars;
 @use 'toast';
 
-$gradient-start: rgb(58, 75, 102);
-$gradient-end: rgb(37, 13, 73);
+// $gradient-start: rgb(58, 75, 102);
+// $gradient-end: rgb(37, 13, 73);
+$gradient-start: #201d28;
+$gradient-end: #171419;
 
 $bg-gradient: linear-gradient(
   180deg,
   $gradient-start 0%,
+  $gradient-start 70%,
   $gradient-end 100%
 );
+  
+$background-texture: url('/assets/textures/bg_pattern.jpg');
 
 html {
   scroll-behavior: smooth;
@@ -21,18 +26,33 @@ html {
   line-height: 1.6;
 }
 
+
 body {
   margin: 0;
   min-height: 100svh;
+  position: relative;
+
   
   color: map.get(vars.$text, 'text-primary');
 
   background-image: $bg-gradient;
-  background-attachment: fixed;
   background-repeat: no-repeat;
-  background-size: cover;
   
   letter-spacing: 0.18px;
+
+   &::before {
+    content: '';
+    inset: 0; 
+    z-index: -1;
+    position: absolute;
+    background-image: $background-texture;
+    background-repeat: repeat;
+    background-size: 300px 300px;
+    opacity: 0.25;
+    mix-blend-mode: soft-light;
+    pointer-events: none;
+
+   }
 }
 
 h1,
