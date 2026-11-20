@@ -6,13 +6,13 @@ import { lastValueFrom } from 'rxjs';
 import { ApiUrlsService, CreateGroupRequestModel, GalleryService } from '@contract/index';
 import { NgxToastService } from 'ngx-toastf';
 import { toastDefaultOptions } from '@app/shared/utils/toasts-hepler';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
 
 @Component({
   selector: 'navigation-bar',
   styleUrl: './navigation-bar.component.scss',
   templateUrl: './navigation-bar.component.html',
-  imports: [FiltersInput],
+  imports: [FiltersInput, RouterLink],
 })
 export class NavigationBar {
   galleryName = input.required<string>();

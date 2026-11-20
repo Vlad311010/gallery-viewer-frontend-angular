@@ -1,0 +1,37 @@
+<form 
+  [formGroup]="form" 
+  (ngSubmit)="onSubmit()"
+  name="tag-creation-form" 
+  class="tag-creation"
+>
+  <h2>Define New Tag</h2>
+  <div class="tag-input-row">
+    <input
+      formControlName="tagName"
+      name="tag-name-input"
+      class="tag-input tag-name-input tag-type"
+      [class]="form.controls.selectedCategory.value | toCategoryClass"
+      type="text"
+      autoComplete="off"
+      placeholder="Tag name"
+      
+    />
+
+    <select
+      formControlName="selectedCategory"
+      name="tag-category-input"
+      class="tag-input tag-category-input tag-type"
+      [class]="form.controls.selectedCategory.value | toCategoryClass"
+    >
+    @for (category of categories; track $index) {
+      <option [ngValue]="category" class="tag-type" [class]="category | toCategoryClass">
+        {{category}}
+      </option>
+    }
+    </select>
+  </div>
+
+  <button class="button button-subtle button-sm" type="submit">
+    Create
+  </button>
+</form>

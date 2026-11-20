@@ -1,0 +1,1 @@
+export { TagCreate } from "./tag-create/tag-create.component";

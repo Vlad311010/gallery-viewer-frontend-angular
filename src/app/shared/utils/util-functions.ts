@@ -1,4 +1,4 @@
-import {TagCategory, TagCategoryType } from "@shared/models/tag-category";
+import { TagCategory, TagCategoryType } from "@shared/models/tag-category";
 
 export function modulo(n: number, m: number): number {
   return ((n % m) + m) % m;

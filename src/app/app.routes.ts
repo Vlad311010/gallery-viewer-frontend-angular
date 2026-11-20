@@ -12,5 +12,11 @@ export const routes: Routes = [
     loadChildren: () =>
       import('@app/features/gallery/gallery.routes')
         .then(m => m.GALLERY_ROUTES),
+  },
+  {
+    path: 'tags',
+    loadChildren: () => 
+      import('@app/features/tag/tag.routes')
+        .then(m => m.ASSET_ROUTES)      
   }
 ];
