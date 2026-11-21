@@ -1,7 +1,6 @@
 @let query = tagsQuery;
 @let editModeOn = viewState.getState().editModeOn;
-@let assetGroupId = assetGroupDetailsQuery.data()?.id;
-@let isAssetAddRemoveAllowed = assetGroupId == null || assetGroupDetailsQuery.data()?.isAssetAddRemoveAllowed;
+@let assetGroupId = assetInfoQuery.data()?.groupId;
 
 <div class="topbar">
   <div class="navigation">
@@ -38,20 +37,12 @@
 
       <span class="sidebar-actions-group">
         <span class="sidebar-actions-group-label">GROUP</span>
-        @if (dropDownOptions(); as options) {
-          <dropdown-selector 
-            [data]="options" 
-            [disabled]="!isAssetAddRemoveAllowed" 
-            [initiallySelectedKey]="assetGroupId ?? null" 
-            (itemChange)="onGroupSelect($event)" 
+        @if (assetInfoQuery.data(); as assetInfo) {
+          <group-managing 
+            [assetId]="assetId()" 
+            [assetGroupId]="assetInfo.groupId" 
+            [galleryId]="assetInfo.galleryId"
           />
-          <button 
-            class="button button-fit button-subtle"     
-            [disabled]="!isAssetAddRemoveAllowed || selectedGroupId() == null || assetGroupId == selectedGroupId()"
-            (click)="onGroupAttach()"
-          >
-            ATTACH TO GROUP
-          </button>
         }
       </span>
     </div>

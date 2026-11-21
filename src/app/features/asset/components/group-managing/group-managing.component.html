@@ -1,0 +1,18 @@
+@let isAssetAddRemoveAllowed = assetGroupId() == null || assetGroupDetailsQuery.data()?.isAssetAddRemoveAllowed;
+
+@if(dropDownOptions(); as options) {
+  <dropdown-selector 
+    [data]="options" 
+    [disabled]="!isAssetAddRemoveAllowed" 
+    [initiallySelectedKey]="assetGroupId() ?? null" 
+    (itemChange)="onGroupSelect($event)" 
+  />
+
+  <button 
+    class="button button-fit button-subtle"     
+    [disabled]="!isAssetAddRemoveAllowed || selectedGroupId() == null || assetGroupId() == selectedGroupId()"
+    (click)="onGroupAttach()"
+  >
+    ATTACH TO GROUP
+  </button>
+}
