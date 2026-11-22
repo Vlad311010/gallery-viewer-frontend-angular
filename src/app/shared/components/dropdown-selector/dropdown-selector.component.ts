@@ -11,7 +11,7 @@ export interface SelectOption {
   selector: 'dropdown-selector',
   styleUrl: './dropdown-selector.component.scss',
   templateUrl: './dropdown-selector.component.html',
-  imports: [NgTemplateOutlet, KeyValuePipe],
+  imports: [NgTemplateOutlet, KeyValuePipe]
 })
 export class DropdownSelectorComponent<T> {
   data = input.required<Map<T, SelectOption>>()
@@ -40,17 +40,17 @@ export class DropdownSelectorComponent<T> {
     })
   }
 
-  private onDropDownClick() {
+  onDropDownClick() {
     this.isOpen.update(val => !val);
   }
 
-  private onOptionSelect(key: T) {
+  onOptionSelect(key: T) {
     this.isOpen.set(false);
     this.selectedItemKey.set(key);
     this.itemChange.emit(key);
   }
 
-  private closeDropdown() {
+  closeDropdown() {
     this.isOpen.set(false);
   }
 }

@@ -1,4 +1,4 @@
- <div class="select-container" [class.select-disabled]="disabled()" (blur)="closeDropdown()">
+ <div class="select-container" [class.select-disabled]="disabled()" (focusout)="closeDropdown()">
   <button class="select" [disabled]="disabled()" (click)="onDropDownClick()">
     <ng-container
       [ngTemplateOutlet]="option"
@@ -10,7 +10,7 @@
     />
   </button>
 
-  <ul class="select-options" [class.select-options-hidden]="!isOpen()" (blur)="closeDropdown()">
+  <ul class="select-options" [class.select-options-hidden]="!isOpen()">
     @for (optionData of data() | keyvalue: null; track optionData.key) {
       <li 
         class="select-option" [class.select-option-active]="false"
