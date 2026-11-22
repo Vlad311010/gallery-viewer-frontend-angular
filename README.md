@@ -1,27 +1,118 @@
-# GalleryViewerFrontAngular
+# GalleryViewer Frontend (Angular)
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 17.0.10.
+An Angular-based frontend for browsing, organizing, and managing image and video collections through the GalleryViewer REST API.
 
-## Development server
+The application provides a responsive media gallery with asset browsing, tagging, group management, and dedicated image and video viewing experiences.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+## Features
 
-## Code scaffolding
+- Gallery and media asset browsing
+- Image and video previews
+- Dedicated image and video viewers
+- Image tagging — create tags, assign tags to assets, and search by tags
+- Gallery and asset group management
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
 
-## Build
+## Technologies
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- **Angular 22** — frontend framework
+- **TypeScript** — application programming language
+- **RxJS** — reactive programming and asynchronous data handling
+- **TanStack Query for Angular** — server-state management, queries, mutations.
+- **SCSS / Sass** — styling
+- **HTML5 / CSS3** — templates and layout
+- **Angular CLI** — project tooling and builds
+- **Node.js / npm** — JavaScript runtime and package management
 
-## Running unit tests
+## API Integration
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+The frontend communicates with the GalleryViewer backend through its REST API.
 
-## Running end-to-end tests
+The backend exposes an **OpenAPI contract**, which is used by **ng-openapi** to generate a strongly typed TypeScript API client.
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+Generated API code is committed to the repository and only needs to be regenerated when the API contract changes.
 
-## Further help
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.io/cli) page.
+## Architecture
+
+The frontend is built with Angular and follows a component-oriented architecture.
+
+Application logic is organized into reusable components and feature-specific modules or folders, with component templates and styles maintained separately where practical.
+****
+Server state and API communication are handled through **TanStack Query for Angular**, while **RxJS** is used for reactive programming and asynchronous data handling.
+
+
+## Getting Started
+
+### Prerequisites
+
+- Node.js
+- npm 11.20.0
+- Angular CLI 22.2.5
+
+### Installation
+
+```bash
+git clone https://github.com/Vlad311010/gallery-viewer-front-angular.git
+cd <project-directory>
+npm install
+```
+
+### Development Configuration
+
+For local development, configure the environment file: `src\environments\environment.development.ts`
+
+```env
+apiBaseUrl: <backend_api_url>
+```
+
+The `apiBaseUrl` specifies the backend instance used by the application.
+
+### Development
+
+```bash
+ng serve
+```
+
+
+The development server will be available at:
+
+```text
+http://localhost:5173/
+```
+
+## API Client Generation
+
+The TypeScript API client is generated from the backend OpenAPI contract using **ng-openapi**.
+
+```bash
+npm run generate-api
+```
+API source can be configured inside `openapi.config.ts` file. Other settings beside `input` should be left unchanged.
+
+API generation is only required when the backend API contract changes.
+
+## Production Build
+
+```bash
+npm run publish <destination_path>
+
+destination_path should be a wwroot folder of publish backend part.
+```
+The published frontend is served by the GalleryViewer backend.
+
+Since the frontend and API share the same origin in production, a separate API URL is not  required.
+
+## Project Structure
+
+
+The project follows a component-oriented architecture using Angular components, pages, services, and shared functionality.
+
+
+## Backend
+
+Backend repository:
+
+**https://github.com/Vlad311010/GalleryViewer**
+
+See the backend README for API setup, database configuration, media synchronization, and deployment instructions.
