@@ -12,6 +12,14 @@ The application provides a responsive media gallery with asset browsing, tagging
 - Image tagging — create tags, assign tags to assets, and search by tags
 - Gallery and asset group management
 
+## Screenshots
+
+![image](screenshots/01.png)
+
+![image](screenshots/02.png)
+
+![image](screenshots/03.png)
+
 
 ## Technologies
 
